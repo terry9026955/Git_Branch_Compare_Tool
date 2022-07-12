@@ -7,6 +7,7 @@ def callGit():
     subprocess.call("git commit -am \"You commit this branch.\"")
     subprocess.call("git push")
 
+    
     print("\n\n\n")
     # Print SHA
     print("Your remote SHA: ")
@@ -14,6 +15,8 @@ def callGit():
     print("Your local SHA: ")
     localSHA = subprocess.call("git rev-parse HEAD")           # To get the latest commit on the local
 
+    
+    print("\nChecking branch...\n")
     # Check branch of 2 side
     if((remoteSHA) == (localSHA)):
         print("Remote and Loacal are same branch.")
