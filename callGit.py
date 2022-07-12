@@ -14,6 +14,10 @@ def callGit():
     print("Your local SHA: ")
     subprocess.call("git rev-parse HEAD")           # To get the latest commit on the local
 
+    # Check branch of 2 side
+    if((subprocess.call("git rev-parse origin")) == (subprocess.call("git rev-parse HEAD"))):
+        print("Remote and Loacal are same branch.")
+
 
 def main():
     callGit()
