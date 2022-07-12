@@ -37,8 +37,8 @@ def checkBranch():
 # Write SHA info into SHA.log
 def writeSHA(remoteSHA, localSHA):
     with open("SHA.log","w") as file:
-        file.write(remoteSHA)
-        file.write(localSHA)
+        file.write("remote SHA: ", remoteSHA, "\n")
+        file.write("local SHA: ", localSHA, "\n")
     
 
 def main():
