@@ -17,6 +17,8 @@ def callGit():
     # Check branch of 2 side
     if((remoteSHA) == (localSHA)):
         print("Remote and Loacal are same branch.")
+    else:
+        print("Remote and Loacal are different branch.")
 
 
 def main():
