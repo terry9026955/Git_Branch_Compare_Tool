@@ -39,6 +39,11 @@ def writeSHA(remoteSHA, localSHA):
     with open("SHA.log","w") as file:
         file.write("remote SHA: " + remoteSHA + "\n")
         file.write("local SHA: " + localSHA + "\n")
+
+
+    with open("SHA.log","w") as filetest:
+        filetest.write("remote SHA: " + remoteSHA + "\n")
+        filetest.write("local SHA: " + localSHA + "\n")
     
 
 def main():
