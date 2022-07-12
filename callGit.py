@@ -13,7 +13,7 @@ def callGit():
     print("\nYour local SHA: ")
     subprocess.call("git rev-parse HEAD") # To get the latest commit on the local
 
-    
+    print("\nDone.")
 
     # 目前要想辦法讀取出subprocess.call()秀出來的內容，不然他現在只會返回0/1
     # print("\nChecking branch...\n")
