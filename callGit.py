@@ -1,5 +1,6 @@
 import subprocess 
 
+
 def callGit():
     subprocess.call("git --version")
     subprocess.call("git status")
@@ -8,6 +9,7 @@ def callGit():
     subprocess.call("git push")
 
     print("\nCalling git and Push are done.")
+
 
 def checkBranch():
     print("\nChecking branch...\n")
@@ -29,9 +31,20 @@ def checkBranch():
         print("【Remote】 and 【Loacal】 are \'different\' branch.")
         subprocess.call("git pull") # If diff, then pull from remote
     
+    writeSHA(remoteSHA, localSHA)
+
+
+# Write SHA info into SHA.log
+def writeSHA(remoteSHA, localSHA):
+    with open("SHA.log","w") as file:
+        file.write(remoteSHA)
+        file.write(localSHA)
+    
+
 def main():
     callGit()
     checkBranch()
+
 
 if __name__ == "__main__":
     main()
