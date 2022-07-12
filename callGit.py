@@ -7,15 +7,7 @@ def callGit():
     subprocess.call("git commit -am \"You commit this branch.\"")
     subprocess.call("git push")
 
-
-    # print("\nYour remote SHA: ")
-    # subprocess.call("git rev-parse origin")  # To get the latest commit on the remote
-    # print("\nYour local SHA: ")
-    # subprocess.call("git rev-parse HEAD") # To get the latest commit on the local
-
     print("\nCalling git and Push are done.")
-
-
 
 def checkBranch():
     print("\nChecking branch...\n")
@@ -37,8 +29,6 @@ def checkBranch():
         print("【Remote】 and 【Loacal】 are \'different\' branch.")
         subprocess.call("git pull") # If diff, then pull from remote
     
-    
-
 def main():
     callGit()
     checkBranch()
