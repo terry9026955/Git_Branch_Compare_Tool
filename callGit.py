@@ -8,25 +8,40 @@ def callGit():
     subprocess.call("git push")
 
 
-    print("\nYour remote SHA: ")
-    subprocess.call("git rev-parse origin")  # To get the latest commit on the remote
-    print("\nYour local SHA: ")
-    subprocess.call("git rev-parse HEAD") # To get the latest commit on the local
+    # print("\nYour remote SHA: ")
+    # subprocess.call("git rev-parse origin")  # To get the latest commit on the remote
+    # print("\nYour local SHA: ")
+    # subprocess.call("git rev-parse HEAD") # To get the latest commit on the local
 
-    print("\nDone.")
+    print("\nCalling git and Push are done.")
 
-    # 目前要想辦法讀取出subprocess.call()秀出來的內容，不然他現在只會返回0/1
-    # print("\nChecking branch...\n")
-    # Check branch of 2 side
-    # if((remoteSHA) == (localSHA)):
-    #     print("Remote and Loacal are same branch.")
-    # else:
-    #     print("Remote and Loacal are different branch.")
 
+
+def checkBranch():
+    print("\nChecking branch...\n")
+
+    remoteSHA = str(subprocess.check_output("git rev-parse origin"))
+    remoteSHA = remoteSHA.replace("b'", "")
+    remoteSHA = remoteSHA[:8]   # Get former 8 SHA codes
+    
+    localSHA = str(subprocess.check_output("git rev-parse HEAD"))
+    localSHA = localSHA.replace("b'", "")
+    localSHA = localSHA[:8]
+
+    print("remote SHA: ", remoteSHA)
+    print("local SHA: ", localSHA)
+
+    if((remoteSHA) == (localSHA)):  # Check SHA of 2 side
+        print("【Remote】 and 【Loacal】 are \'same\' branch.")
+    else:
+        print("【Remote】 and 【Loacal】 are \'different\' branch.")
+        subprocess.call("git pull") # If diff, then pull from remote
+    
     
 
 def main():
     callGit()
+    checkBranch()
 
 if __name__ == "__main__":
     main()
