@@ -4,6 +4,7 @@ import subprocess
 def callGit():
     subprocess.call("git --version")
     subprocess.call("git status")
+    checkBranch()
     subprocess.call("git add .")
     subprocess.call("git commit -am \"You commit this branch.\"")
     subprocess.call("git push")
@@ -43,7 +44,7 @@ def writeSHA(remoteSHA, localSHA):
 
 def main():
     callGit()
-    checkBranch()
+    #checkBranch()
 
 
 if __name__ == "__main__":
