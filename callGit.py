@@ -10,7 +10,7 @@ def callGit():
     print("\n\n\n")
     # Print SHA
     print("Your remote SHA: ")
-    subprocess.call("git rev-parse origin/master")  # To get the latest commit on the remote
+    subprocess.call("git rev-parse origin")  # To get the latest commit on the remote
     print("Your local SHA: ")
     subprocess.call("git rev-parse HEAD")           # To get the latest commit on the local
 
