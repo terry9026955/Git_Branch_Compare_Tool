@@ -42,14 +42,17 @@ def writeSHA(remoteSHA, localSHA):
         file.write("remote SHA: " + remoteSHA + "\n")
         file.write("local SHA: " + localSHA + "\n\n")
 
+
 def gitPull():
     subprocess.call("git fetch -p")
     subprocess.call("git pull") 
+
 
 def gitPush():
     subprocess.call("git add .")
     subprocess.call("git commit -am \"You commit this.\"")
     subprocess.call("git push")
+
 
 def gitCheck():
     subprocess.call("git --version")
@@ -59,7 +62,6 @@ def gitCheck():
 def main():
     callGit()
     
-
 
 if __name__ == "__main__":
     main()
