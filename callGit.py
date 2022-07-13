@@ -6,10 +6,12 @@ real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
 # Call git server and do branch checking
 def callGit():
-    checkBranch()  
+    checkBranch()
+    #gitPull()
     print("\nCalling git and Pushing are done.")
 
 
+# Get remote and local SHA and then comparing 
 def checkBranch():
     print("\nChecking branch...\n")
 
