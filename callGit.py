@@ -51,8 +51,7 @@ def gitPull():
 
 def gitPush():
     subprocess.call("git add .")
-    msg = str(input("commit msg: "))
-    subprocess.call("git commit -am \"msg\"")
+    subprocess.call("git commit -am \"File modified.\"")
     subprocess.call("git push")
 
 
