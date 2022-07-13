@@ -1,20 +1,20 @@
 import subprocess 
-#import time
-
-#real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+import os
 
 
+# Call git server and do branch checking
 def callGit():
-    #subprocess.call("git --version")
-    subprocess.call("git fetch -p")
-    subprocess.call("git pull")
-    #subprocess.call("git status")
     checkBranch()
-    #subprocess.call("git add .")
-    #subprocess.call("git commit -am \"You commit this.\"")
-    #subprocess.call("git push")
+    # subprocess.call("git fetch -p")
+    
+    
 
-    print("\nCalling git and Push are done.")
+    # For testing:
+    # subprocess.call("git --version")
+    # subprocess.call("git status")
+    
+
+    print("\nCalling git and Pushing are done.")
 
 
 def checkBranch():
@@ -35,9 +35,9 @@ def checkBranch():
         print("【Remote】 and 【Loacal】 are \'same\' branch.")
     else:
         print("【Remote】 and 【Loacal】 are \'different\' branch.")
-        subprocess.call("git pull") # If diff, then pull from remote
+        gitPull()
     
-    writeSHA(remoteSHA, localSHA)
+    #writeSHA(remoteSHA, localSHA)
 
 
 # Write SHA info into SHA.log
@@ -46,10 +46,18 @@ def writeSHA(remoteSHA, localSHA):
         file.write("remote SHA: " + remoteSHA + "\n")
         file.write("local SHA: " + localSHA + "\n")
 
+def gitPull():
+    subprocess.call("git pull") 
+
+def gitPush():
+    subprocess.call("git add .")
+    subprocess.call("git commit -am \"You commit this.\"")
+    subprocess.call("git push")
+
 
 def main():
     callGit()
-    #checkBranch()
+    
 
 
 if __name__ == "__main__":
