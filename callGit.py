@@ -4,16 +4,7 @@ import os
 
 # Call git server and do branch checking
 def callGit():
-    checkBranch()
-    # subprocess.call("git fetch -p")
-    
-    
-
-    # For testing:
-    # subprocess.call("git --version")
-    # subprocess.call("git status")
-    
-
+    checkBranch()  
     print("\nCalling git and Pushing are done.")
 
 
@@ -37,7 +28,7 @@ def checkBranch():
         print("【Remote】 and 【Loacal】 are \'different\' branch.")
         gitPull()
     
-    #writeSHA(remoteSHA, localSHA)
+    writeSHA(remoteSHA, localSHA)
 
 
 # Write SHA info into SHA.log
@@ -47,12 +38,17 @@ def writeSHA(remoteSHA, localSHA):
         file.write("local SHA: " + localSHA + "\n")
 
 def gitPull():
+    subprocess.call("git fetch -p")
     subprocess.call("git pull") 
 
 def gitPush():
     subprocess.call("git add .")
     subprocess.call("git commit -am \"You commit this.\"")
     subprocess.call("git push")
+
+def gitCheck():
+    subprocess.call("git --version")
+    subprocess.call("git status")
 
 
 def main():
