@@ -8,6 +8,7 @@ real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 def callGit():
     checkBranch()
     #gitPull()
+    gitPush()
     print("\nCalling git and Pushing are done.")
 
 
@@ -40,7 +41,7 @@ def writeSHA(remoteSHA, localSHA):
     with open("SHA.log","a") as file:
         file.write(real_time + ": \n")
         file.write("remote SHA: " + remoteSHA + "\n")
-        file.write("local SHA: " + localSHA + "\n\n")
+        file.write("local SHA:  " + localSHA + "\n\n")
 
 
 def gitPull():
@@ -50,7 +51,8 @@ def gitPull():
 
 def gitPush():
     subprocess.call("git add .")
-    subprocess.call("git commit -am \"You commit this.\"")
+    msg = str(input("commit msg: "))
+    subprocess.call("git commit -am \"msg\"")
     subprocess.call("git push")
 
 
