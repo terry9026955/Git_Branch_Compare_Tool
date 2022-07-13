@@ -1,16 +1,18 @@
 import subprocess 
-import time
+#import time
 
-real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+#real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
 
 def callGit():
-    subprocess.call("git --version")
-    subprocess.call("git status")
+    #subprocess.call("git --version")
+    subprocess.call("git fetch -p")
+    subprocess.call("git pull")
+    #subprocess.call("git status")
     checkBranch()
-    subprocess.call("git add .")
-    subprocess.call("git commit -am \"You commit this.\"")
-    subprocess.call("git push")
+    #subprocess.call("git add .")
+    #subprocess.call("git commit -am \"You commit this.\"")
+    #subprocess.call("git push")
 
     print("\nCalling git and Push are done.")
 
