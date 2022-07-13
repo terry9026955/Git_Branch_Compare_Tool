@@ -1,5 +1,7 @@
 import subprocess 
-import os
+import time
+
+real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
 
 # Call git server and do branch checking
@@ -33,9 +35,10 @@ def checkBranch():
 
 # Write SHA info into SHA.log
 def writeSHA(remoteSHA, localSHA):
-    with open("SHA.log","w") as file:
+    with open("SHA.log","a") as file:
+        file.write(real_time + ": \n")
         file.write("remote SHA: " + remoteSHA + "\n")
-        file.write("local SHA: " + localSHA + "\n")
+        file.write("local SHA: " + localSHA + "\n\n")
 
 def gitPull():
     subprocess.call("git fetch -p")
