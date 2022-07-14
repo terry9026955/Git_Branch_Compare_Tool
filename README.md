@@ -1,7 +1,9 @@
-# Git_Command_Called_by_Python
+# Git_Branch_Compare_Tool
+* Go to the specific directory
 * To get SHA of the latest commit from remote git repository
 * Check remote and local branch are same or not
 * If same: 
-    * git add, commit, and push
+    * git add, commit, and push (confirm file be modified)
 * If different:
-    * git pull 
+    * git pull (get new branch to sync)
+* Record SHA detail and time when push & pull
