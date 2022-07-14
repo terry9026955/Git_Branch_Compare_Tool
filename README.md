@@ -1,5 +1,5 @@
 # Git_Branch_Compare_Tool
-* Go to the specific directory
+* Go to the specific directory of your local repo
 * To get SHA of the latest commit from remote git repository
 * Check remote and local branch are same or not
 * If same: 
