@@ -6,4 +6,4 @@
     * git add, commit, and push (confirm file be modified)
 * If different:
     * git pull (get new branch to sync)
-* Record SHA detail and time when push & pull
+* Record SHA detail and time
