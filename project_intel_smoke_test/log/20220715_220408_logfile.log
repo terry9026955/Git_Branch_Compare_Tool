@@ -1,0 +1,20 @@
+ERROR 2022-07-15 22:04:08,295 - Error Message from get_list_item
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\oneTouch_tool\test_plan_ui.py", line 686, in mainWork
+    if self.checkBox.isChecked():
+AttributeError: 'runBatchcommand' object has no attribute 'checkBox'
+ERROR 2022-07-15 22:04:09,259 - Error Message from get_list_item
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\oneTouch_tool\test_plan_ui.py", line 686, in mainWork
+    if self.checkBox.isChecked():
+AttributeError: 'runBatchcommand' object has no attribute 'checkBox'
+ERROR 2022-07-15 22:04:10,201 - Error Message from get_list_item
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\oneTouch_tool\test_plan_ui.py", line 686, in mainWork
+    if self.checkBox.isChecked():
+AttributeError: 'runBatchcommand' object has no attribute 'checkBox'
+ERROR 2022-07-15 22:04:11,127 - Error Message from get_list_item
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\oneTouch_tool\test_plan_ui.py", line 686, in mainWork
+    if self.checkBox.isChecked():
+AttributeError: 'runBatchcommand' object has no attribute 'checkBox'
