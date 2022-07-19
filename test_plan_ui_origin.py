@@ -26,6 +26,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         wrapper_path = os.path.dirname(sys.executable) #抓路徑位址
     elif __file__:
         wrapper_path = os.path.dirname(__file__)
+    print("Wrapper Path is: ", wrapper_path)
 
         
     def __init__(self): #建構子
@@ -52,6 +53,9 @@ class Main(QMainWindow, ui.Ui_MainWindow):
     
     
     def getInfo(self):
+        #Initializaion of stopmissionFlag
+        Main.stopmissionFlag = False
+        
         ini = self.loadini()
         folderPath = ini.value("Folder/path")
         
@@ -136,9 +140,12 @@ class Main(QMainWindow, ui.Ui_MainWindow):
 
     #抓ini路徑
     def loadini(self):
-
+        # 原本寫的樣子:
         settings = QSettings(Main.wrapper_path+'/config.ini', QSettings.IniFormat)
-
+        
+        # 先設絕對路徑看能不能寫:
+        # settings = QSettings('D:\Tinghao.Chen\Desktop\Git_Command_Test', QSettings.IniFormat)
+        print("Loadini setting is: ", settings)
         return settings
 
 
@@ -153,7 +160,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
 
             ini_branch = ini.value("Branch/branch")
 
-            ini_SHA = ini.value("SHA/SHA")
+            ini_SHA = ini.value("SHA/sha")
             try:
                 
 
@@ -435,7 +442,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
 
         return
     
-    
+    # 這邊做讀寫新舊SHA，然後做紀錄
     def SHAwrite(self, SHAstring):
         ini = self.loadini()
         ini.setValue("SHA/sha", SHAstring)
@@ -558,7 +565,7 @@ class getSHA(QThread):
             return False
         else:
             print("【Remote】 and 【Loacal】 are \'different\' branch.")
-            #gitPull()
+            self.gitPull()
 
         # return SHA
         self.writeSHA(real_time, remoteSHA, localSHA)
