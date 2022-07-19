@@ -58,6 +58,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
         ini = self.loadini()
         folderPath = ini.value("Folder/path")
+        gitPath = ini.value("Git_path/path")
         
         # get number of list 
         listNumber = self.listWidget.count()
@@ -69,10 +70,10 @@ class Main(QMainWindow, ui.Ui_MainWindow):
             scriptList.append(scriptname)
             
         ini_branch = ini.value("Branch/branch")   
-        self.threadRunSHA(folderPath, listNumber, scriptList, ini_branch)
+        self.threadRunSHA(folderPath, listNumber, scriptList, ini_branch, gitPath)
         
     
-    def threadRunSHA(self, folderpath, listWidget_count, scriptList, branch):
+    def threadRunSHA(self, folderpath, listWidget_count, scriptList, branch, gitPath):
         
         self.thread = QThread(parent=self)
         
@@ -81,7 +82,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         self.worker.moveToThread(self.thread)
         # Connect signals and slots
         
-        self.thread.started.connect(self.worker.main)
+        self.thread.started.connect(partial(self.worker.main, gitPath))
 
         # 當收到finished, 線程結束
         self.worker.finished.connect(self.thread.quit)
@@ -99,7 +100,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
     
     def threadRunbatch(self, folderpath, listWidget_count, scriptList, branch, SHA, endTigger):
         
-        print(endTigger, folderpath, listWidget_count, scriptList, branch, SHA)
+        #print(endTigger, folderpath, listWidget_count, scriptList, branch, SHA)
         self.thread = QThread(parent=self)
         
         self.worker = runBatchcommand()
@@ -443,9 +444,21 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         return
     
     # 這邊做讀寫新舊SHA，然後做紀錄
-    def SHAwrite(self, SHAstring):
+    def SHAwrite(self, remoteSHA):
         ini = self.loadini()
-        ini.setValue("SHA/sha", SHAstring)
+        
+        currentSHA = ini.value("SHA/sha")
+        lastSHA = ini.value("Last_SHA/last_sha")
+        
+        if (currentSHA == "" and lastSHA == ""):
+            ini.setValue("SHA/sha", remoteSHA)
+            ini.setValue("Last_SHA/last_sha",remoteSHA)
+        elif(currentSHA != "" and currentSHA != remoteSHA):
+            ini.setValue("Last_SHA/last_sha", currentSHA)
+            ini.setValue("SHA/sha", remoteSHA)
+            
+            
+        
 
 
 
@@ -559,9 +572,10 @@ class getSHA(QThread):
 
         print("remote SHA: ", remoteSHA)
         print("local SHA: ", localSHA)
-
+        
         if((remoteSHA) == (localSHA)):  # Check SHA of 2 side
             print("【Remote】 and 【Loacal】 are \'same\' branch.")
+            self.SHAwrite.emit(str(remoteSHA))
             return False
         else:
             print("【Remote】 and 【Loacal】 are \'different\' branch.")
@@ -578,7 +592,7 @@ class getSHA(QThread):
         
     # Write SHA info into SHA.log
     def writeSHA(self, real_time, remoteSHA, localSHA):
-        with open("./SHA_log/"+ real_time +"_SHA._log.log", "w") as file:
+        with open(Main.wrapper_path+"/auto_log/"+ real_time +"_SHA_log.log", "w") as file:
             file.write(real_time + ": \n")
             file.write("remote SHA: " + remoteSHA + "\n")
             file.write("local SHA:  " + localSHA + "\n\n")
@@ -605,8 +619,8 @@ class getSHA(QThread):
         subprocess.call('dir', shell=True) 
 
 
-    def gotoPath(self):
-        os.chdir('D:/Tinghao.Chen/Desktop/Git_Command_Test')
+    def gotoPath(self, gitPath):
+        os.chdir(gitPath)
         # os.chdir('D:/SourceCode_SM2269')
         cwd = os.getcwd() 
         print("Current working directory is:", cwd)
@@ -630,36 +644,50 @@ class getSHA(QThread):
         return True
         
         
-    def main(self):
-        
-        real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-        # Go to directory (git repository)
-        self.gotoPath()
-        # showFile()
-        # gitCheck()
+    def main(self, gitPath):
+        try:
+            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+            # Go to directory (git repository)
+            self.gotoPath(gitPath)
+            # showFile()
+            # gitCheck()
 
-        # Get SHA
-        compareTigger = self.checkBranch(real_time)
-        
-        if compareTigger == True:
-            tiggerList = self.gitLog()
+            # Get SHA
+            compareTigger = self.checkBranch(real_time)
             
-            self.endTigger.emit(tiggerList)
-            
-            self.finished.emit()
-        else:
-            
-            for i in range(3):
-                if Main.stopmissionFlag == True:
-                    break
-                else:
-                    time.sleep(1)
-                    
-            if Main.stopmissionFlag == True:
+            if compareTigger == True:
+                tiggerList = self.gitLog()
+                
+                self.endTigger.emit(tiggerList)
+                
                 self.finished.emit()
-            else:   
-                self.main()
-        
+            else:
+                
+                for i in range(3):
+                    if Main.stopmissionFlag == True:
+                        break
+                    else:
+                        time.sleep(1)
+                        
+                if Main.stopmissionFlag == True:
+                    self.finished.emit()
+                else:   
+                    self.main(gitPath)
+            
+        except Exception:
+
+            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
+            logging.basicConfig(filename = log_name,
+                                filemode = "w",
+                                format = Log_Format, 
+                                level = logging.DEBUG)
+
+            logger = logging.getLogger()
+            logger.error("Error Message from Class of getSHA", exc_info=True)
+            self.finished.emit()
+            
         
 
 class runBatchcommand(QThread):
@@ -686,7 +714,7 @@ class runBatchcommand(QThread):
                 for i in range(listWidget_count):
                     #res = yield self.listWidget.item(i)
                     stopFlag = Main.stopmissionFlag
-                    print(stopFlag)
+                    
                     time.sleep(3)
                     if stopFlag == False:
                         scriptname = str(scriptList[i])
@@ -705,11 +733,14 @@ class runBatchcommand(QThread):
                                 if SHA_input == None:
 
                                     SHA_input = ""
+                                    
+                                if branch_input != "" and SHA_input != "":
+                                    branch_input = ""
 
                                 procress = subprocess.run([file_path, branch_input, SHA_input])
 
-                                if self.checkBox.isChecked():
-                                    command = use_inbox_delete_smi_driver_tp.main()
+                                # if self.checkBox.isChecked():
+                                #     command = use_inbox_delete_smi_driver_tp.main()
                                     
 
                             elif "Restart" in file_path or "restart" in file_path:
