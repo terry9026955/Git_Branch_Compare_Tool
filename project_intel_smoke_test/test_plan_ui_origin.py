@@ -82,7 +82,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         self.worker.moveToThread(self.thread)
         # Connect signals and slots
         
-        self.thread.started.connect(partial(self.worker.main, gitPath))
+        self.thread.started.connect(partial(self.worker.main, gitPath, branch))
 
         # 當收到finished, 線程結束
         self.worker.finished.connect(self.thread.quit)
@@ -93,12 +93,12 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
         # commit
         self.worker.SHAwrite.connect(self.SHAwrite)
-        self.worker.endTigger.connect(partial(self.threadRunbatch, folderpath, listWidget_count, scriptList, branch, Main.SHA))
+        self.worker.endTigger.connect(partial(self.threadRunbatch, folderpath, listWidget_count, scriptList, branch, Main.SHA, gitPath))
         # Start the thread
         self.thread.start()
         
     
-    def threadRunbatch(self, folderpath, listWidget_count, scriptList, branch, SHA, endTigger):
+    def threadRunbatch(self, folderpath, listWidget_count, scriptList, branch, SHA, gitPath, endTigger):
         
         #print(endTigger, folderpath, listWidget_count, scriptList, branch, SHA)
         self.thread = QThread(parent=self)
@@ -108,7 +108,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         self.worker.moveToThread(self.thread)
         # Connect signals and slots
         
-        self.thread.started.connect(partial(self.worker.mainWork, endTigger, folderpath, listWidget_count, scriptList, branch, SHA))
+        self.thread.started.connect(partial(self.worker.mainWork, endTigger, folderpath, listWidget_count, scriptList, branch, SHA, gitPath))
 
         self.worker.loopTigger.connect(partial(self.threadRunSHA, folderpath, listWidget_count, scriptList, branch))
         
@@ -558,11 +558,11 @@ class getSHA(QThread):
         
         
 
-    def checkBranch(self, real_time):
+    def checkBranch(self, real_time, branch):
         print("\nChecking branch...\n")
 
         # Get the latest SHA of github
-        remoteSHA = str(subprocess.check_output("git rev-parse origin"))
+        remoteSHA = str(subprocess.check_output("git rev-parse " + str(branch)))
         remoteSHA = remoteSHA.replace("b'", "")
         remoteSHA = remoteSHA[:8]   # Get former 8 SHA codes
         
@@ -644,7 +644,7 @@ class getSHA(QThread):
         return True
         
         
-    def main(self, gitPath):
+    def main(self, gitPath, branch):
         try:
             real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
             # Go to directory (git repository)
@@ -653,7 +653,7 @@ class getSHA(QThread):
             # gitCheck()
 
             # Get SHA
-            compareTigger = self.checkBranch(real_time)
+            compareTigger = self.checkBranch(real_time, branch)
             
             if compareTigger == True:
                 tiggerList = self.gitLog()
@@ -672,7 +672,7 @@ class getSHA(QThread):
                 if Main.stopmissionFlag == True:
                     self.finished.emit()
                 else:   
-                    self.main(gitPath)
+                    self.main(gitPath, branch)
             
         except Exception:
 
@@ -701,8 +701,7 @@ class runBatchcommand(QThread):
         QThread.__init__(self, parent=parent)
     
     
-    def mainWork(self, endTigger, folderpath, listWidget_count, scriptList, branch_input, SHA_input):
-        print(SHA_input)
+    def mainWork(self, endTigger, folderpath, listWidget_count, scriptList, branch_input, SHA_input, gitPath):
         
         try:
             if endTigger == True:
@@ -787,7 +786,7 @@ class runBatchcommand(QThread):
             logger.error("Error Message from get_list_item", exc_info=True)
         
         if stopFlag == False:
-            self.loopTigger.emit(SHA_input)
+            self.loopTigger.emit(gitPath)
         else:
             self.finished.emit()
  
