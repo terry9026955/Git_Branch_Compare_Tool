@@ -9,6 +9,18 @@ import os
 import time
 
 def main(): 
+    p = Popen(["diskpart"], stdin=PIPE)
+    print("sending data to STDIN")
+    
+    res1 = p.stdin.write(bytes("list disk\n", 'utf-8'))
+    time.sleep(.5)
+
+if __name__ == "__main__":
+    main()
+    
+    
+    
+    
     #os.system('cmd /k "diskpart"')  
     # try:
     #     os.system('cmd /k "diskpart"')
@@ -20,11 +32,3 @@ def main():
     
     # command = "diskpart"
     # run(command, shell=True)
-    p = Popen(["diskpart"], stdin=PIPE)
-    print("sending data to STDIN")
-    
-    res1 = p.stdin.write(bytes("list disk\n", 'utf-8'))
-    time.sleep(.5)
-
-if __name__ == "__main__":
-    main()
