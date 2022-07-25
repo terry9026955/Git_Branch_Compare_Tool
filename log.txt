@@ -1,1615 +1,3047 @@
-b'commit
-b70d55de01163f66355e51e7bd306a19d05ccd30\nAuthor:
-terry
-<terry9026955@gmail.com>\nDate:
-
-
-Fri
-Jul
-22
-15:43:22
-2022
-+0800\n\n
-
-
-
-\xe4\xbf\xae\xe5\x88\xb0\xe5\x87\xbaBUG\xe7\x89\x88\n\ndiff
---git
-a/project_intel_smoke_test/test_plan_ui_origin.py
-b/project_intel_smoke_test/test_plan_ui_origin.py\nindex
-4f47d60..7f3fa56
-100644\n---
-a/project_intel_smoke_test/test_plan_ui_origin.py\n+++
-b/project_intel_smoke_test/test_plan_ui_origin.py\n@@
--13,12
-+13,15
-@@
-import
-logging\n
-import
-time\n
-from
-functools
-import
-partial\n
-\n+#
-Default
-branch:
-Echoharbor_N38A_Main\n
-\n
-\n+#
-Counter
-for
-recursion
-times
-recording
-and
-restarting
-program\n+counter
-=
-0\n
-\n
-\n
-class
-Main(QMainWindow,
-ui.Ui_MainWindow):\n-
-
-
-
-SHA
-=
-None\n+
-
-
-
-SHA
-=
-None
-
-#
-\xe5\x85\xa8\xe5\x9f\x9f\n
-
-
-
-
-stopmissionFlag
-=
-False\n
-
-
-
-
-version_number
-=
-"20220718A_BETA"\n
-
-
-
-
-#
-determine
-if
-application
-is
-a
-script
-file
-or
-frozen
-exe\n@@
--59,6
-+62,8
-@@
-class
-Main(QMainWindow,
-ui.Ui_MainWindow):\n
-
-
-
-
-
-
-
-
-ini
-=
-self.loadini()\n
-
-
-
-
-
-
-
-
-folderPath
-=
-ini.value("Folder/path")\n
-
-
-
-
-
-
-
-
-gitPath
-=
-ini.value("Git_path/path")\n+
-
-
-
-
-
-
-
-print("getInfo
-called!")
-#
-TEST\n+
-
-
-
-
-
-
-
-print("gitPath:
-"
-,
-gitPath)\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-#
-get
-number
-of
-list
-\n
-
-
-
-
-
-
-
-
-listNumber
-=
-self.listWidget.count()\n@@
--74,15
-+79,16
-@@
-class
-Main(QMainWindow,
-ui.Ui_MainWindow):\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-\n
-
-
-
-
-def
-threadRunSHA(self,
-folderpath,
-listWidget_count,
-scriptList,
-branch,
-gitPath):\n-
-
-
-
-
-
-
-
-\n-
-
-
-
-
-
-
-
-self.thread
-=
-QThread(parent=self)\n+
-
-
-
-
-
-
-
-print("threadRunSHA
-called!")\n+
-
-
-
-
-
-
-
-print("now
-the
-branch
-is
-"
+b'commit 1a05a5cac9953c80426a44416fdda3b3ae46c22e
+Author: terry <terry9026955@gmail.com>
+Date:   Mon Jul 25 14:52:21 2022 +0800
+
+    OneTouch full version 2
+
+diff --git a/gitLog.py b/gitLog.py
+index d174446..7d89c85 100644
+--- a/gitLog.py
++++ b/gitLog.py
+@@ -1,33 +1,89 @@
++from cmath import log
+ import subprocess
++import sys
++import os
 +
-branch)\n+
-
-
-
-
-
-
-
-self.thread
-=
-QThread(parent=self)
-
-#
-\xe9\x96\x8b\xe6\x96\xb0Thread\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-self.worker
-=
-getSHA()\n
-
-
-
-
-
-
-
-
-#
-Move
-worker
-to
-the
-thread\n
-
-
-
-
-
-
-
-
-self.worker.moveToThread(self.thread)\n
-
-
-
-
-
-
-
-
-#
-Connect
-signals
-and
-slots\n
-
-
-
-
-
-
-
-
-\n-
-
-
-
-
-
-
-
-self.thread.started.connect(partial(self.worker.main,
-gitPath,
-branch))\n+
-
-
-
-
-
-
-
-self.thread.started.connect(partial(self.worker.main,
-gitPath,
-branch))
-#
-\xe8\xbf\xb4\xe5\x9c\x88\xe8\xb7\xb3\xe4\xbe\x86\xe6\x9c\x83\xe9\x87\x8d\xe6\x96\xb0\xe9\x96\x8b\xe4\xb8\x80\xe5\x80\x8b\xe6\x96\xb0Thread\xe5\x81\x9aThread2\xe7\x9a\x84\xe4\xba\x8b\xe6\x83\x85\n
-\n
-
-
-
-
-
-
-
-
-#
-\xe7\x95\xb6\xe6\x94\xb6\xe5\x88\xb0finished,
-\xe7\xb7\x9a\xe7\xa8\x8b\xe7\xb5\x90\xe6\x9d\x9f\n
-
-
-
-
-
-
-
-
-self.worker.finished.connect(self.thread.quit)\n@@
--579,7
-+585,7
-@@
-class
-getSHA(QThread):\n
-
-
-
-
-
-
-
-
-
-
-
-
-return
-False\n
-
-
-
-
-
-
-
-
-else:\n
-
-
-
-
-
-
-
-
-
-
-
-
-print("\xe3\x80\x90Remote\xe3\x80\x91
-and
-\xe3\x80\x90Loacal\xe3\x80\x91
-are
-\\\'different\\\'
-branch.")\n-
-
-
-
-
-
-
-
-
-
-
-
-self.gitPull()\n+
-
-
-
-
-
-
-
-
-
-
-
-#self.gitPull()\n
-\n
-
-
-
-
-
-
-
-
-#
-return
-SHA\n
-
-
-
-
-
-
-
-
-self.writeSHA(real_time,
-remoteSHA,
-localSHA)\n@@
--620,6
-+626,7
-@@
-class
-getSHA(QThread):\n
-\n
-\n
-
-
-
-
-def
-gotoPath(self,
-gitPath):\n+
-
-
-
-
-
-
-
-print("now
-in
-the
-gotoPath
-of
-getSHA")\n
-
-
-
-
-
-
-
-
-os.chdir(gitPath)\n
-
-
-
-
-
-
-
-
-#
-os.chdir(\'D:/SourceCode_SM2269\')\n
-
-
-
-
-
-
-
-
-cwd
-=
-os.getcwd()
-\n@@
--636,24
-+643,46
-@@
-class
-getSHA(QThread):\n
-
-
-
-
-
-
-
-
-
-
-
-
-for
-line
-in
-logInfo:\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-file.write(line)\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-file.write("\\n")\n+
-
-
-
-
-
-
-
-\n+
-
-
-
-
-
-
-
-#
-\xe6\x8a\x93\xe5\x87\xba\xe9\x97\x9c\xe9\x8d\xb5\xe5\xad\x97\n
-
-
-
-
-
-
-
-
-with
-open("log.txt",
-"r")
-as
-read:\n-
-
-
-
-
-
-
-
-
-
-
-
-readfile
-=
-read.readlines()[19]\n+
-
-
-
-
-
-
-
-
-
-
-
-for
-line
-in
-logInfo:\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if
-"Author"
-in
-line:\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-name
-=
-line.split("
++wrapper_path = os.path.dirname(sys.executable)
+ 
+ def gitLog():
+-        logInfo = str(subprocess.check_output("git log"))
++        logInfo = str(subprocess.check_output("git log -p -1"))
+         logInfo = logInfo.split("\\\
 ")
-
-#
-\xe5\x88\x87\xe6\x88\x90List\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-fullname
-=
-str(name[1])\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if
-"<"
-not
-in
-name[2]:\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-fullname
-=
-name[1]
++        #print(logInfo)
+         
++        print("wrapper_path: ", wrapper_path)
++        cwd = os.getcwd()
++        print("cur path: ", cwd)
+         
+         # \xe5\xaf\xab\xe5\x85\xa5txt\xe7\xb4\x80\xe9\x8c\x84
+-        with open("log.txt", "w") as file:
++        #with open("log.txt", "w") as file:
++        with open(cwd + "\\log.txt", "w") as file:
+             #file.write(logInfo)
+             for line in logInfo:
+                 file.write(line)
+                 file.write("\
+")
+                 
+         # \xe6\x8a\x93\xe5\x87\xba\xe9\x97\x9c\xe9\x8d\xb5\xe5\xad\x97
+-        with open("log.txt", "r") as read:
+-            
++        with open(cwd + "\\log.txt", "r") as read:
+             for line in logInfo:
+-                if \'Author\' in line:
+-                    name = line.split(" ")  # \xe5\x88\x87\xe6\x88\x90List
+-                    fullname = str(name[1])
+-                    if "<" not in name[2]:
+-                        fullname = name[1] + name[2]
+-                    return fullname
++                if \'Author\' in line:    # \xe6\x8a\x93\xe6\x9c\x80\xe6\x96\xb0\xe7\x9a\x84\xe9\x82\xa3\xe4\xb8\x80\xe7\xad\x86
++                    print("Author info: ", line)
++                    break
++                    
++                    
++                    # name = line.split(" ")  # \xe5\x88\x87\xe6\x88\x90List
++                    # fullname = str(name[1])
++                    # if "<" not in name[2]:
++                    #     fullname = name[1] + name[2]
++                    # return fullname
++        
++        return True
++        
++        
++        
++        
++             
++# if getattr(sys, \'frozen\', False):   #\xe7\xa2\xba\xe8\xaa\x8d\xe6\x98\xaf\xe6\x89\x93\xe5\x8c\x85\xe5\xa5\xbd\xe7\x9a\x84exe\xe6\xaa\x94\xe6\xa1\x88\xe9\x82\x84\xe6\x98\xaf\xe6\x9c\xac\xe5\x9c\xb0\xe7\x9a\x84script\xe6\xaa\x94\xe6\xa1\x88
++#     wrapper_path = os.path.dirname(sys.executable) #\xe6\x8a\x93\xe8\xb7\xaf\xe5\xbe\x91\xe4\xbd\x8d\xe5\x9d\x80
++# elif __file__:
++#     wrapper_path = os.path.dirname(__file__)
++# print("Wrapper Path is: ", wrapper_path)
++             
+                 
+-       
++# def gitLog(self):
++#         logInfo = str(subprocess.check_output("git log -p -1"))
++#         logInfo = logInfo.split(" ")
++#         print("log info: ",logInfo)
++#         #print("log info: ", logInfo)
++        
++        
++#         with open(wrapper_path + "/log.txt", "w") as file:
++#             #file.write(logInfo)
++#             file.write("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
++#             for line in logInfo:
++#                 file.write(line)
++#                 file.write("\
+")
++#         #print("Wrapper_path: ", Main.wrapper_path)
++#         # \xe6\x8a\x93\xe5\x87\xba\xe9\x97\x9c\xe9\x8d\xb5\xe5\xad\x97
++#         with open(wrapper_path + "/log.txt", "r") as read:
++#             cnt = 0
++#             for line in logInfo:
++#                 if "Author" in line:
++#                     if cnt <= 1:
++#                         print("Author info: ", line)
++#                         cnt += 1
++                    
++            
++#             #readfile = read.readlines()[19]
++            
++#         #print("Author: " + readfile)
++        
++#         return True
+                     
+             
+     
+ def main():
 +
-name[2]\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-print("Author:
-",
-fullname)\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-\n-
-
-
-
-
-
-
-
-print("Author:
-"
++    
+     name = gitLog() # return name of the latest commit branch
+     print("Author: " + str(name))
+     
+diff --git a/log.txt b/log.txt
+index 8c36f7e..530969a 100644
+--- a/log.txt
++++ b/log.txt
+@@ -1,366 +1,1615 @@
+-b\'commit 3eb58b351dc75576f68ff5d1946447e2adff2ed3
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 20 10:14:05 2022 +0800
++b\'commit
++b70d55de01163f66355e51e7bd306a19d05ccd30\
+Author:
++terry
++<terry9026955@gmail.com>\
+Date:
 +
-readfile)\n+
-
-
-
-
-
-
-
-
-
-
-
-#readfile
-=
-read.readlines()[19]\n+
-
-
-
-
-
-
-
-
-
-
-
-\n+
-
-
-
-
-
-
-
-#print("Author:
-"
 +
-readfile)\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-return
-True\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-def
-main(self,
-gitPath,
-branch):\n
-
-
-
-
-
-
-
-
-try:\n+
-
-
-
-
-
-
-
-
-
-
-
-#counter
-for
-recording
-revursion\n+
-
-
-
-
-
-
-
-
-
-
-
-if
-counter
->=
-1000:\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#\xe9\x87\x8d\xe9\x96\x8b\xe6\xa9\x9f\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#restart()
-
-
-#
-\xe9\x87\x8d\xe5\x95\x9f?!?!\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-pass\n+
-
-
-
-
-
-
-
-
-
-
-
-else:\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-counter
++Fri
++Jul
++22
++15:43:22
++2022
+++0800\
+\
+
+ 
+-    Full version of OneTouch Tool(\\xe5\\x8f\\xaf\\xe6\\x88\\x90\\xe5\\x8a\\x9f\\xe9\\x96\\x8b\\xe5\\x8d\\xa1\\xe5\\x9f\\xb7\\xe8\\xa1\\x8c 0-1 BatchFile)
+ 
+-commit 981059b81d3030c6aeb4e97950420dbc4b415bc8
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 19 17:18:05 2022 +0800
+ 
+-    ini file reading & writing
++\\xe4\\xbf\\xae\\xe5\\x88\\xb0\\xe5\\x87\\xbaBUG\\xe7\\x89\\x88\
+\
+diff
++--git
++a/project_intel_smoke_test/test_plan_ui_origin.py
++b/project_intel_smoke_test/test_plan_ui_origin.py\
+index
++4f47d60..7f3fa56
++100644\
+---
++a/project_intel_smoke_test/test_plan_ui_origin.py\
++++
++b/project_intel_smoke_test/test_plan_ui_origin.py\
+@@
++-13,12
+++13,15
++@@
++import
++logging\
+
++import
++time\
+
++from
++functools
++import
++partial\
+
++\
++#
++Default
++branch:
++Echoharbor_N38A_Main\
+
++\
+
++\
++#
++Counter
++for
++recursion
++times
++recording
++and
++restarting
++program\
++counter
 +=
-1
-\n+
-
-
-
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-real_time
-=
-time.strftime("%Y%m%d_%H%M%S",
-time.localtime())\n
-
-
-
-
-
-
-
-
-
-
-
-
-#
-Go
-to
-directory
-(git
-repository)\n+
-
-
-
-
-
-
-
-
-
-
-
-print("calling
-gotoPath...")\n+
-
-
-
-
-
-
-
-
-
-
-
-print("gitPath:",
-gitPath)\n
-
-
-
-
-
-
-
-
-
-
-
-
-self.gotoPath(gitPath)\n+
-
-
-
-
-
-
-
-
-
-
-
-print("After
-gotoPath
-calling...")\n
-
-
-
-
-
-
-
-
-
-
-
-
-#
-showFile()\n
-
-
-
-
-
-
-
-
-
-
-
-
-#
-gitCheck()\n
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-#
-Get
-SHA\n-
-
-
-
-
-
-
-
-
-
-
-
-compareTigger
-=
-self.checkBranch(real_time,
-branch)\n+
-
-
-
-
-
-
-
-
-
-
-
-compareTigger
-=
-self.checkBranch(real_time,
-branch)
-#
-\xe6\xb3\xa8\xe6\x84\x8f\xe7\x89\x88\xe6\x9c\xac\xe8\xa6\x81\xe6\x89\x93\xe5\xb0\x8d(\xe5\x9c\xa8ini\xe8\xa3\xa1\xe9\x9d\xa2\xe6\x94\xb9\xe5\x8d\xb3\xe5\x8f\xaf)\n
-
-
-
-
-
-
-
-
-
-
-
-
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-if
-compareTigger
-==
-True:\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tiggerList
-=
-self.gitLog()\n@@
--738,8
-+767,9
++0\
+
++\
+
++\
+
++class
++Main(QMainWindow,
++ui.Ui_MainWindow):\
+-
+ 
+-commit 199a11feefc7177cafc3dc44f89ece5d617fd670
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 19 17:06:01 2022 +0800
+ 
+-    Completed version tool
+ 
+-commit 16bcc220b0ee31d403a072ca4320940e84086f86
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 19 14:42:57 2022 +0800
++SHA
++=
++None\
++
+ 
+-    Full version Tool
+ 
+-commit 7f7b861de32d983d16a34bcdcff1be9ed42b16fa
+-Author: terry <terry9026955@gmail.com>
+-Date:   Mon Jul 18 16:55:31 2022 +0800
+ 
+-    Full version tool
++SHA
++=
++None
+ 
+-commit fec9f5a4ce26182496fbff22ec17976ad6540157
+-Author: terry <terry9026955@gmail.com>
+-Date:   Mon Jul 18 16:53:35 2022 +0800
++#
++\\xe5\\x85\\xa8\\xe5\\x9f\\x9f\
+
+ 
+-    Full tool of version1
+ 
+-commit 3cf27ad36a6f74f52de6fad497964aba937fd5c7
+-Author: terry <terry9026955@gmail.com>
+-Date:   Mon Jul 18 16:52:15 2022 +0800
+ 
+-    git log detail
+ 
+-commit 3d6dda1029b5758ddfa716993f257239fc1d54d4
+-Author: terry <terry9026955@gmail.com>
+-Date:   Mon Jul 18 16:51:45 2022 +0800
++stopmissionFlag
++=
++False\
+
+ 
+-    config
+ 
+-commit 06501caf699dba0aa25b84bd0de1c18518f3a41e
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:47:14 2022 +0800
+ 
+-    About this tool
+ 
+-commit d32cd17bd003f04a67046282ae548d053799cbd1
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:37:43 2022 +0800
++version_number
++=
++"20220718A_BETA"\
+
+ 
+-    About this tool
+ 
+-commit 5f6f3882c4260e5a0da8ea9f212c6ea62b959780
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:36:46 2022 +0800
+ 
+-    About this tool
+ 
+-commit bb8d17893e15d17e956550375858239165db4920
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:28:09 2022 +0800
++#
++determine
++if
++application
++is
++a
++script
++file
++or
++frozen
++exe\
 @@
-class
-runBatchcommand(QThread):\n
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-procress
-=
-subprocess.run([file_path,
-branch_input,
-SHA_input])\n
-\n-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-if
-self.checkBox.isChecked():\n-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-
-
-
-
-command
-=
-use_inbox_delete_smi_driver_tp.main()\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if
-self.checkBox.isChecked():\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\n+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-command
-=
-use_inbox_delete_smi_driver_tp.main()\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\n
-\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-elif
-"Restart"
-in
-file_path
-or
-"restart"
-in
-file_path:\n@@
--793,6
-+823,9
++-59,6
+++62,8
++@@
++class
++Main(QMainWindow,
++ui.Ui_MainWindow):\
+
+ 
+-    Branch detail
+ 
+-commit ad665a9049ff0e6b8f3c3b63177e9ece7372c4eb
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:27:42 2022 +0800
+ 
+-    Git_branch_Compare_Tool
+ 
+-commit 16abef10503a46c98bdff4152dbaa68e2154f581
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:25:23 2022 +0800
+ 
+-    Branch detail
+ 
+-commit 89b6a8c4c722c6e2a7e75be76982687b59a466f1
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:20:31 2022 +0800
+ 
+-    cd to any directory
+ 
+-commit 7d416a78acbbef4e0b45b064ea3cd1583272b70f
+-Author: terry <terry9026955@gmail.com>
+-Date:   Thu Jul 14 12:19:58 2022 +0800
++ini
++=
++self.loadini()\
+
+ 
+-    SHA detail
+ 
+-commit b9f286b0295c8a33b9f6247f815f7ac36d5bd858
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 16:21:47 2022 +0800
+ 
+-    File modified.
+ 
+-commit b2ffe619f167bb73ef268f3906eaf9c19a827f32
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 15:29:51 2022 +0800
+ 
+-    Detail of this program
+ 
+-commit 0d7b259c550b68bf1c8f35653b88a4f018011a09
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 15:09:50 2022 +0800
+ 
+-    File modified.
+ 
+-commit 49f9b70f57663671da61b55b1b66d7dc3ae9638c
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 15:06:59 2022 +0800
++folderPath
++=
++ini.value("Folder/path")\
+
+ 
+-    Detail about this program
+ 
+-commit 26afdfc6bd033d0c3277de5cc892125a43a67cce
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 14:57:56 2022 +0800
+ 
+-    File modified.
+ 
+-commit 61a12ef45d6025db9e21186d303b3526dd863ecf
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 14:55:26 2022 +0800
+ 
+-    File modified.
+ 
+-commit 85fc371c8e602e40dbc0d47020b7e6b8447a11df
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 14:50:20 2022 +0800
+ 
+-    msg
+ 
+-commit ce1d91a4fe16df95220282dd70c163e89eb51299
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 12:29:50 2022 +0800
++gitPath
++=
++ini.value("Git_path/path")\
++
+ 
+-    Detail about this program
+ 
+-commit 3eca6436f0c6a5030246a6d2b7153c1369fc7fbb
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 12:29:07 2022 +0800
+ 
+-    Detail about this program
+ 
+-commit 799a9f6f07c22980f22ca7831920cb4665ed2293
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 12:25:21 2022 +0800
+ 
+-    Typesetting
+ 
+-commit baec0cb0793e2e661b27f36f8288e7db10cdb1e1
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 12:16:54 2022 +0800
+ 
+-    git check branch
++print("getInfo
++called!")
++#
++TEST\
++
+ 
+-commit ca2e9d417f74228495b379e9fc41a1ecd1ae2e91
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 12:04:56 2022 +0800
+ 
+-    modify writeSHA function
+ 
+-commit 15d82a1594ec070803524798eee859835f53aecb
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 11:59:07 2022 +0800
+ 
+-    modify functions
+ 
+-commit 0f8fc2d2a436c3830d4637a018eceb6e4c48fc32
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 11:52:55 2022 +0800
+ 
+-    write functions
+ 
+-commit 660ffab53176fc53620707626072581694fc39e9
+-Author: terry <terry9026955@gmail.com>
+-Date:   Wed Jul 13 10:58:58 2022 +0800
++print("gitPath:
++"
++,
++gitPath)\
+
+ 
+-    delete some useless command
+ 
+-commit 316313d77537712b9a52b494a171200939d25b90
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:37:43 2022 +0800
+ 
+-    You commit this.
+ 
+-commit 9a9d03c5b12c3749ac4443978d26bd946cf794dd
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:32:59 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit adc991cebef1e782be8cda03887bb0fe71dc7b7a
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:32:41 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 17539afa5912142cc4bf3115417017fd199cf477
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:29:28 2022 +0800
++\
+
+ 
+-    You commit this branch.
+ 
+-commit e636654f4700d5dfd1829cc9050fc8fb3b16147f
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:28:43 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit f8a21e63a66eb6333ea867f423d5c4744fc61ce6
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:27:54 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 552b122a66f9a215263e9f759b9176cd008cf85c
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:27:31 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 4ecf86f7c2231ab528b7afa9793099cfb4150d4c
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:27:15 2022 +0800
++#
++get
++number
++of
++list
++\
+
+ 
+-    You commit this branch.
+ 
+-commit 83bcdc935ebccb596b7bc8d57ad6c1ebc9e75422
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:25:36 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 701113468e1861e04b3a4b8293544e1f608d12ae
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:24:56 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 9ecd02dfae47db3c4d21878b2e86e750f908ad2c
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:23:47 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 6761913d5f76a3996ec3caca64bdab3b06465674
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 18:00:09 2022 +0800
++listNumber
++=
++self.listWidget.count()\
 @@
-class
-runBatchcommand(QThread):\n
-\n
++-74,15
+++79,16
++@@
++class
++Main(QMainWindow,
++ui.Ui_MainWindow):\
 
+ 
+-    You commit this branch.
+ 
+-commit 319f2fe19b1c6f9e6102063dcce6becdf3a537bd
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 17:36:44 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 444120c468fa3fb144060c597057bccdf0078207
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 16:47:16 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 685a84b691da6c9b847e7814f76545c8757d9828
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 16:37:31 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 39b55ef334fa4eedd82d59a79eac38180d7e9c10
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 16:36:35 2022 +0800
++\
 
+ 
+-    You commit this branch.
+ 
+-commit 3e9f71f1f683b72e936e32f4e30117aacec52922
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 16:36:07 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 4df661fe0c0382766db334d58a9fa36375d707ee
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 16:33:43 2022 +0800
++\
 
+ 
+-    You commit this branch.
+ 
+-commit 4e548ffd7eed382f7607facd603fd8c3e59347c7
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:53:30 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit 7dd634fba2ae69d6aad257fa2e55bb410e67db86
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:52:31 2022 +0800
++def
++threadRunSHA(self,
++folderpath,
++listWidget_count,
++scriptList,
++branch,
++gitPath):\
+-
+ 
+-    You commit this branch.
+ 
+-commit f77befad30f082849dcbd51cf3bebcecab7820f2
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:51:55 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit dbfebc9597286eb5e04dfbb0bf003491e6fa6795
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:50:56 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit fff6ae8f47b5e91e64f54be5e4badbe54a539d1d
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:48:24 2022 +0800
+ 
+-    You commit this branch.
++\
+-
+ 
+-commit 16864b548a20529719e45d7832eb9a4a613dc9cd
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:43:18 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit a54076bd76e6719658742a2e49a3aec923ccb5f8
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:41:48 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit be6c1539b9ae2d4927e7cbaed4055094b1fc8f64
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 15:37:55 2022 +0800
+ 
+-    You commit this branch.
+ 
+-commit d65500fb9a0dc306361113ef3991eb4fe866e7f4
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 11:35:00 2022 +0800
++self.thread
++=
++QThread(parent=self)\
++
+ 
+-    add new file and modify
+ 
+-commit b1db379c8dc43e621444bf52b76f1f2aac1e4305
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 11:29:00 2022 +0800
+ 
+-    modify file
+ 
+-commit b980147a7d49b2860b7f94e1a72dfe8c8b6b7ddc
+-Author: terry <terry9026955@gmail.com>
+-Date:   Tue Jul 12 11:22:22 2022 +0800
+ 
+-    test file
+ 
+-commit f7bfa0a663fd22d7b55ceebbe342df62c78df9de
+-Author: TeiGou <37975419+terry9026955@users.noreply.github.com>
+-Date:   Tue Jul 12 11:06:07 2022 +0800
+ 
+-    Initial commit
+-\'
++print("threadRunSHA
++called!")\
++
++
++
++
++
++
++
++
++print("now
++the
++branch
++is
++"
+++
++branch)\
++
++
++
++
++
++
++
++
++self.thread
++=
++QThread(parent=self)
++
++#
++\\xe9\\x96\\x8b\\xe6\\x96\\xb0Thread\
 
++
++
++
++
++
++
++
++
++\
 
++
++
++
++
++
++
++
++
++self.worker
++=
++getSHA()\
 
++
++
++
++
++
++
++
++
++#
++Move
++worker
++to
++the
++thread\
 
++
++
++
++
++
++
++
++
++self.worker.moveToThread(self.thread)\
 
-\n
-if
-__name__
-==
-\'__main__\':\n+
++
++
++
++
++
++
++
++
++#
++Connect
++signals
++and
++slots\
 
++
++
++
++
++
++
++
++
++\
+-
++
++
++
++
++
++
++
++self.thread.started.connect(partial(self.worker.main,
++gitPath,
++branch))\
++
++
++
++
++
++
++
++
++self.thread.started.connect(partial(self.worker.main,
++gitPath,
++branch))
++#
++\\xe8\\xbf\\xb4\\xe5\\x9c\\x88\\xe8\\xb7\\xb3\\xe4\\xbe\\x86\\xe6\\x9c\\x83\\xe9\\x87\\x8d\\xe6\\x96\\xb0\\xe9\\x96\\x8b\\xe4\\xb8\\x80\\xe5\\x80\\x8b\\xe6\\x96\\xb0Thread\\xe5\\x81\\x9aThread2\\xe7\\x9a\\x84\\xe4\\xba\\x8b\\xe6\\x83\\x85\
 
++\
 
-#
-\xe9\x98\xb2\xe6\xad\xa2\xe7\xa8\x8b\xe5\xbc\x8f\xe6\x95\xb4\xe5\x80\x8b\xe5\xb4\xa9\xe6\xbd\xb0\xe6\x8e\x89\n+
++
++
++
++
++
++
++
++
++#
++\\xe7\\x95\\xb6\\xe6\\x94\\xb6\\xe5\\x88\\xb0finished,
++\\xe7\\xb7\\x9a\\xe7\\xa8\\x8b\\xe7\\xb5\\x90\\xe6\\x9d\\x9f\
 
++
++
++
++
++
++
++
++
++self.worker.finished.connect(self.thread.quit)\
+@@
++-579,7
+++585,7
++@@
++class
++getSHA(QThread):\
 
++
++
++
++
++
++
++
++
++
++
++
++
++return
++False\
 
-sys.setrecursionlimit(100000)
++
++
++
++
++
++
++
++
++else:\
 
-\n+
++
++
++
++
++
++
++
++
++
++
++
++
++print("\\xe3\\x80\\x90Remote\\xe3\\x80\\x91
++and
++\\xe3\\x80\\x90Loacal\\xe3\\x80\\x91
++are
++\\\\\\\'different\\\\\\\'
++branch.")\
+-
++
++
++
++
++
++
++
++
++
++
++
++self.gitPull()\
++
++
++
++
++
++
++
++
++
++
++
++
++#self.gitPull()\
 
++\
 
++
++
++
++
++
++
++
++
++#
++return
++SHA\
 
-\n
++
++
++
++
++
++
++
++
++self.writeSHA(real_time,
++remoteSHA,
++localSHA)\
+@@
++-620,6
+++626,7
++@@
++class
++getSHA(QThread):\
 
++\
 
++\
 
++
++
++
++
++def
++gotoPath(self,
++gitPath):\
++
++
++
++
++
++
++
++
++print("now
++in
++the
++gotoPath
++of
++getSHA")\
 
-app
-=
-QtWidgets.QApplication(sys.argv)\n
++
++
++
++
++
++
++
++
++os.chdir(gitPath)\
 
++
++
++
++
++
++
++
++
++#
++os.chdir(\\\'D:/SourceCode_SM2269\\\')\
 
++
++
++
++
++
++
++
++
++cwd
++=
++os.getcwd()
++\
+@@
++-636,24
+++643,46
++@@
++class
++getSHA(QThread):\
 
++
++
++
++
++
++
++
++
++
++
++
++
++for
++line
++in
++logInfo:\
 
-window
-=
-Main()\n
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++file.write(line)\
 
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++file.write("\\\
+")\
++
++
++
++
++
++
++
++
++\
++
++
++
++
++
++
++
++
++#
++\\xe6\\x8a\\x93\\xe5\\x87\\xba\\xe9\\x97\\x9c\\xe9\\x8d\\xb5\\xe5\\xad\\x97\
 
++
++
++
++
++
++
++
++
++with
++open("log.txt",
++"r")
++as
++read:\
+-
++
++
++
++
++
++
++
++
++
++
++
++readfile
++=
++read.readlines()[19]\
++
++
++
++
++
++
++
++
++
++
++
++
++for
++line
++in
++logInfo:\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++if
++"Author"
++in
++line:\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++name
++=
++line.split("
++")
++
++#
++\\xe5\\x88\\x87\\xe6\\x88\\x90List\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++fullname
++=
++str(name[1])\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++if
++"<"
++not
++in
++name[2]:\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++fullname
++=
++name[1]
+++
++name[2]\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++print("Author:
++",
++fullname)\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++\
 
++
++
++
++
++
++
++
++
++
++
++
++
++\
+-
++
++
++
++
++
++
++
++print("Author:
++"
+++
++readfile)\
++
++
++
++
++
++
++
++
++
++
++
++
++#readfile
++=
++read.readlines()[19]\
++
++
++
++
++
++
++
++
++
++
++
++
++\
++
++
++
++
++
++
++
++
++#print("Author:
++"
+++
++readfile)\
 
-window.show()\n'
++
++
++
++
++
++
++
++
++\
+
++
++
++
++
++
++
++
++
++return
++True\
+
++
++
++
++
++
++
++
++
++\
+
++
++
++
++
++
++
++
++
++\
+
++
++
++
++
++def
++main(self,
++gitPath,
++branch):\
+
++
++
++
++
++
++
++
++
++try:\
++
++
++
++
++
++
++
++
++
++
++
++
++#counter
++for
++recording
++revursion\
++
++
++
++
++
++
++
++
++
++
++
++
++if
++counter
++>=
++1000:\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++#\\xe9\\x87\\x8d\\xe9\\x96\\x8b\\xe6\\xa9\\x9f\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++#restart()
++
++
++#
++\\xe9\\x87\\x8d\\xe5\\x95\\x9f?!?!\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++pass\
++
++
++
++
++
++
++
++
++
++
++
++
++else:\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++counter
+++=
++1
++\
++
++
++
++
++
++
++
++
++
++
++
++
++\
+
++
++
++
++
++
++
++
++
++
++
++
++
++real_time
++=
++time.strftime("%Y%m%d_%H%M%S",
++time.localtime())\
+
++
++
++
++
++
++
++
++
++
++
++
++
++#
++Go
++to
++directory
++(git
++repository)\
++
++
++
++
++
++
++
++
++
++
++
++
++print("calling
++gotoPath...")\
++
++
++
++
++
++
++
++
++
++
++
++
++print("gitPath:",
++gitPath)\
+
++
++
++
++
++
++
++
++
++
++
++
++
++self.gotoPath(gitPath)\
++
++
++
++
++
++
++
++
++
++
++
++
++print("After
++gotoPath
++calling...")\
+
++
++
++
++
++
++
++
++
++
++
++
++
++#
++showFile()\
+
++
++
++
++
++
++
++
++
++
++
++
++
++#
++gitCheck()\
+
++\
+
++
++
++
++
++
++
++
++
++
++
++
++
++#
++Get
++SHA\
+-
++
++
++
++
++
++
++
++
++
++
++
++compareTigger
++=
++self.checkBranch(real_time,
++branch)\
++
++
++
++
++
++
++
++
++
++
++
++
++compareTigger
++=
++self.checkBranch(real_time,
++branch)
++#
++\\xe6\\xb3\\xa8\\xe6\\x84\\x8f\\xe7\\x89\\x88\\xe6\\x9c\\xac\\xe8\\xa6\\x81\\xe6\\x89\\x93\\xe5\\xb0\\x8d(\\xe5\\x9c\\xa8ini\\xe8\\xa3\\xa1\\xe9\\x9d\\xa2\\xe6\\x94\\xb9\\xe5\\x8d\\xb3\\xe5\\x8f\\xaf)\
+
++
++
++
++
++
++
++
++
++
++
++
++
++\
+
++
++
++
++
++
++
++
++
++
++
++
++
++if
++compareTigger
++==
++True:\
+
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++tiggerList
++=
++self.gitLog()\
+@@
++-738,8
+++767,9
++@@
++class
++runBatchcommand(QThread):\
+
++\
+
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++procress
++=
++subprocess.run([file_path,
++branch_input,
++SHA_input])\
+
++\
+-
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++#
++if
++self.checkBox.isChecked():\
+-
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++#
++
++
++
++
++command
++=
++use_inbox_delete_smi_driver_tp.main()\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++if
++self.checkBox.isChecked():\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++\
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++command
++=
++use_inbox_delete_smi_driver_tp.main()\
+
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++\
+
++\
+
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++elif
++"Restart"
++in
++file_path
++or
++"restart"
++in
++file_path:\
+@@
++-793,6
+++823,9
++@@
++class
++runBatchcommand(QThread):\
+
++\
+
++
++
++
++
++
++
++
++
++\
+
++if
++__name__
++==
++\\\'__main__\\\':\
++
++
++
++
++#
++\\xe9\\x98\\xb2\\xe6\\xad\\xa2\\xe7\\xa8\\x8b\\xe5\\xbc\\x8f\\xe6\\x95\\xb4\\xe5\\x80\\x8b\\xe5\\xb4\\xa9\\xe6\\xbd\\xb0\\xe6\\x8e\\x89\
++
++
++
++
++sys.setrecursionlimit(100000)
++
++\
++
++
++
++
++\
+
++
++
++
++
++app
++=
++QtWidgets.QApplication(sys.argv)\
+
++
++
++
++
++window
++=
++Main()\
+
++
++
++
++
++window.show()\
+\'
+diff --git a/test_plan_ui_origin_copy_1.py b/test_plan_ui_origin_copy_1.py
+new file mode 100644
+index 0000000..796ec49
+--- /dev/null
++++ b/test_plan_ui_origin_copy_1.py
+@@ -0,0 +1,897 @@
++from ast import Str
++from PyQt5 import QtWidgets, QtCore, QtGui
++from PyQt5.QtWidgets import *
++from PyQt5.QtCore import *
++from PyQt5.QtGui import *
++import sys
++import mainui as ui
++import subprocess
++import use_inbox_delete_smi_driver_tp
++import configparser
++import os
++import logging
++import time
++from functools import partial
++
++# Default branch: Echoharbor_N38A_Main
++
++
++# Counter for recursion times recording and restarting program
++counter = 0
++
++real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++
++cwd = os.getcwd()
++print("current path: ", cwd)
++
++class Main(QMainWindow, ui.Ui_MainWindow):
++    SHA = None  # \xe5\x85\xa8\xe5\x9f\x9f
++    stopmissionFlag = False
++    version_number = "20220718A_BETA"
++    # determine if application is a script file or frozen exe
++    if getattr(sys, \'frozen\', False):   #\xe7\xa2\xba\xe8\xaa\x8d\xe6\x98\xaf\xe6\x89\x93\xe5\x8c\x85\xe5\xa5\xbd\xe7\x9a\x84exe\xe6\xaa\x94\xe6\xa1\x88\xe9\x82\x84\xe6\x98\xaf\xe6\x9c\xac\xe5\x9c\xb0\xe7\x9a\x84script\xe6\xaa\x94\xe6\xa1\x88
++        wrapper_path = os.path.dirname(sys.executable) #\xe6\x8a\x93\xe8\xb7\xaf\xe5\xbe\x91\xe4\xbd\x8d\xe5\x9d\x80
++    elif __file__:
++        wrapper_path = os.path.dirname(__file__)
++    print("Wrapper Path is: ", wrapper_path)
++
++        
++    def __init__(self): #\xe5\xbb\xba\xe6\xa7\x8b\xe5\xad\x90
++        super().__init__()  #\xe7\xb9\xbc\xe6\x89\xbfQtWidgets.QMainWindow\xe8\xb7\x9fUi_MainWindow\xe5\xbb\xba\xe6\xa7\x8b\xe5\xad\x90\xe7\x9a\x84\xe5\x85\xa7\xe5\xae\xb9
++        self.setupUi(self)  #\xe5\xb0\x87UI\xe5\x81\x9a\xe5\xbb\xba\xe7\xab\x8b\xe7\x9a\x84\xe5\x8b\x95\xe4\xbd\x9c
++        #self.setAcceptDrops(True)
++        self.initiAct()     
++        self.setAcceptDrops(True)   #\xe4\xbd\xbf\xe8\x83\xbd\xe5\xa4\xa0\xe6\x94\xaf\xe6\x8c\x81\xe6\x8b\x96\xe5\x8b\x95\xe6\x93\x8d\xe4\xbd\x9c
++        
++        
++        # \xe9\x80\x99\xe9\x82\x8a\xe5\x8f\xaf\xe8\x83\xbd\xe8\xa6\x81\xe6\x94\xb9\xe6\x88\x90 thread \xe5\x8e\xbb\xe5\x81\x9a
++        self.list_add_text() #\xe6\x87\x89\xe8\xa9\xb2\xe6\x98\xaf\xe9\x97\x9c\xe6\x96\xbc\xe6\x8b\x96\xe5\x8b\x95\xe5\x8a\x9f\xe8\x83\xbd
++        self.pushButton_2.clicked.connect(self.removeSel) #\xe6\x8c\x89\xe9\x88\x95\xe5\x8a\x9f\xe8\x83\xbd
++        self.pushButton_3.clicked.connect(self.getfile)
++        self.pushButton_4.clicked.connect(self.tiggerStopcommand)
++        self.pushButton.clicked.connect(self.getInfo)
++
++        self.comboBox.currentIndexChanged.connect(self.enableCheckbox)  #\xe7\x94\xa8\xe6\x96\xbc\xe4\xba\x8b\xe4\xbb\xb6\xe6\x94\xb9\xe5\x8b\x95\xe6\x99\x82\xe7\x9a\x84\xe8\x99\x95\xe7\x90\x86\xe6\x96\xb9\xe5\xbc\x8f(\xe6\x94\xb9A\xe6\xa1\x86\xef\xbc\x8cB\xe6\xa1\x86\xe5\x85\xa7\xe5\xae\xb9\xe8\x87\xaa\xe5\x8b\x95\xe6\x94\xb9\xe8\xae\x8a)
++    
++
++    def tiggerStopcommand(self):
++        Main.stopmissionFlag = True
++        return
++    
++    
++    def getInfo(self):
++        #Initializaion of stopmissionFlag
++        Main.stopmissionFlag = False
++        
++        ini = self.loadini()
++        folderPath = ini.value("Folder/path")
++        gitPath = ini.value("Git_path/path")
++        print("getInfo called!") # TEST
++        print("gitPath: " , gitPath)
++        
++        # get number of list 
++        listNumber = self.listWidget.count()
++        # get name of batch file
++        scriptList = []
++        for i in range(listNumber):
++            #res = yield self.listWidget.item(i)
++            scriptname = str(self.listWidget.item(i).text())
++            
++            global checkedFlag
++            
++            if "0-1_NVMe_Preparation" in scriptname:
++                if self.checkBox.isChecked():
++                    checkedFlag = True # (golbal) 
++                else:
++                    checkedFlag = False
++            
++            
++            scriptList.append(scriptname)
++            
++        ini_branch = ini.value("Branch/branch")   
++        self.threadRunSHA(folderPath, listNumber, scriptList, ini_branch, gitPath)
++        
++    
++    def threadRunSHA(self, folderpath, listWidget_count, scriptList, branch, gitPath):
++        print("threadRunSHA called!")
++        print("now the branch is " + branch)
++        self.thread = QThread(parent=self)  # \xe9\x96\x8b\xe6\x96\xb0Thread
++        
++        self.worker = getSHA()
++        # Move worker to the thread
++        self.worker.moveToThread(self.thread)
++        # Connect signals and slots
++        
++        self.thread.started.connect(partial(self.worker.main, gitPath, branch)) # \xe8\xbf\xb4\xe5\x9c\x88\xe8\xb7\xb3\xe4\xbe\x86\xe6\x9c\x83\xe9\x87\x8d\xe6\x96\xb0\xe9\x96\x8b\xe4\xb8\x80\xe5\x80\x8b\xe6\x96\xb0Thread\xe5\x81\x9aThread2\xe7\x9a\x84\xe4\xba\x8b\xe6\x83\x85
++
++        # \xe7\x95\xb6\xe6\x94\xb6\xe5\x88\xb0finished, \xe7\xb7\x9a\xe7\xa8\x8b\xe7\xb5\x90\xe6\x9d\x9f
++        self.worker.finished.connect(self.thread.quit)
++        self.worker.finished.connect(self.worker.deleteLater)
++        
++        
++        self.thread.finished.connect(self.thread.deleteLater)
++        
++        # commit
++        self.worker.SHAwrite.connect(self.SHAwrite)
++        self.worker.endTigger.connect(partial(self.threadRunbatch, folderpath, listWidget_count, scriptList, branch, Main.SHA, gitPath))
++        # Start the thread
++        self.thread.start()
++        
++    
++    def threadRunbatch(self, folderpath, listWidget_count, scriptList, branch, SHA, gitPath, endTigger):
++        
++        #print(endTigger, folderpath, listWidget_count, scriptList, branch, SHA)
++        self.thread = QThread(parent=self)
++        
++        self.worker = runBatchcommand()
++        # Move worker to the thread
++        self.worker.moveToThread(self.thread)
++        # Connect signals and slots
++        
++        self.thread.started.connect(partial(self.worker.mainWork, endTigger, folderpath, listWidget_count, scriptList, branch, SHA, gitPath))
++
++        self.worker.loopTigger.connect(partial(self.threadRunSHA, folderpath, listWidget_count, scriptList, branch))
++        
++        # \xe7\x95\xb6\xe6\x94\xb6\xe5\x88\xb0finished, \xe7\xb7\x9a\xe7\xa8\x8b\xe7\xb5\x90\xe6\x9d\x9f
++        
++        self.worker.finished.connect(self.thread.quit)
++        self.worker.finished.connect(self.worker.deleteLater)
++        
++        
++        self.thread.finished.connect(self.thread.deleteLater)
++
++        
++        # Start the thread
++        self.thread.start()
++
++
++    def enableCheckbox(self):
++        val = str(self.comboBox.currentText()) #\xe7\x9b\xae\xe5\x89\x8d\xe9\x81\xb8\xe9\xa0\x85\xe4\xb8\xad\xe7\x9a\x84\xe5\x80\xbc
++
++        if val == "DVT":
++            self.checkBox.setEnabled(True)  #\xe8\xa8\xad\xe5\xae\x9a\xe5\x85\x83\xe4\xbb\xb6\xe6\x98\xaf\xe5\x90\xa6\xe5\x8f\xaf\xe7\x94\xa8
++            self.checkBox.setChecked(False) 
++        elif val == "3rd party":
++            self.checkBox.setEnabled(False)
++            self.checkBox.setChecked(True)
++        else:
++            self.checkBox.setEnabled(True)
++
++
++
++    #\xe6\x8a\x93ini\xe8\xb7\xaf\xe5\xbe\x91
++    def loadini(self):
++        # \xe5\x8e\x9f\xe6\x9c\xac\xe5\xaf\xab\xe7\x9a\x84\xe6\xa8\xa3\xe5\xad\x90:
++        settings = QSettings(Main.wrapper_path+\'/config.ini\', QSettings.IniFormat)
++        
++        # \xe5\x85\x88\xe8\xa8\xad\xe7\xb5\x95\xe5\xb0\x8d\xe8\xb7\xaf\xe5\xbe\x91\xe7\x9c\x8b\xe8\x83\xbd\xe4\xb8\x8d\xe8\x83\xbd\xe5\xaf\xab:
++        # settings = QSettings(\'D:\\Tinghao.Chen\\Desktop\\Git_Command_Test\', QSettings.IniFormat)
++        print("Loadini setting is: ", settings)
++        return settings
++
++
++    def initiAct(self):
++        try:
++            config = configparser.ConfigParser()    #python\xe8\xae\x80\xe5\x8f\x96ini\xe8\xa8\xad\xe5\xae\x9a\xe6\xaa\x94\xe6\xa1\x88
++            config.read(Main.wrapper_path+\'/config.ini\')
++
++            ini = self.loadini()
++
++            ini_selection = ini.value("test_plan/selection")    #QSettings.value(): read
++
++            ini_branch = ini.value("Branch/branch")
++
++            ini_SHA = ini.value("SHA/sha")
++            try:
++                
++
++                ini_file = config[\'%General\']
++
++                filelist = ini_file.parser._sections["%General"]
++                
++                for k,v in filelist.items():
++                    
++                    self.listWidget.addItem(filelist[k])
++
++                self.comboBox.addItems(ini_selection)
++            except:
++                tigger = False
++                with open(Main.wrapper_path+"/config.ini", \'r\') as f:
++                    for row in f:
++                        if "[%General]" in row:
++                            tigger = True
++                            pass
++                        if tigger == True:
++                            #print(row)
++                            if "filepath_" in row:
++                                name = row.split("=")[1]
++                                #print(name)
++                                
++                                self.listWidget.addItem(name)
++
++            self.lineEdit.setText(ini_branch)
++            self.lineEdit_2.setText(ini_SHA)
++            self.run_memory()
++        except Exception:
++            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
++            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
++            logging.basicConfig(filename = log_name,
++                                filemode = "w",
++                                format = Log_Format, 
++                                level = logging.DEBUG)
++
++            logger = logging.getLogger()
++
++            #Testing our Logger
++
++            logger.error("Error Message from initiAct", exc_info=True)
++        
++
++    def dragEnterEvent(self, event):
++
++        
++        event.accept()
++        event.acceptProposedAction()
++        
++
++
++
++    def dropEvent(self,event):
++
++        
++        file_name = event.mimeData().text()
++
++        if \'file:///\' in file_name:
++            file_name = file_name.replace(\'file:///\', \'\')
++            #print(file_name)
++        
++            self.listWidget.addItem(file_name) 
++            
++
++
++    def list_add_text(self):
++
++        self.listWidget.setDragEnabled(True) #\xe6\x94\xaf\xe6\x8f\xb4\xe6\x8b\x96\xe5\x8b\x95\xe6\x93\x8d\xe4\xbd\x9c
++        self.listWidget.setAcceptDrops(True)
++
++        return
++
++
++    def removeSel(self):
++
++        listItems = self.listWidget.selectedItems()
++
++        config = configparser.ConfigParser()
++        config.read(Main.wrapper_path+\'/config.ini\')
++        if not listItems: return
++
++        for item in listItems:
++            
++            a = self.listWidget.item(self.listWidget.row(item)).text()
++            print(a)
++            self.listWidget.takeItem(self.listWidget.row(item))
++
++            
++            for i in config.options("%General"):
++                if config.get("%General", i) == a:
++
++                    print(i, \'=\', config.get("%General", i))
++                
++                    if config.has_section("%General") == True:
++
++                        config.remove_option("%General", i)
++                        config.write(open(Main.wrapper_path+\'/config.ini\', \'w\'))
++
++
++    # \xe5\xad\x98\xe5\x8f\x96\xe9\x96\x8b\xe5\x8d\xa1\xe6\x99\x82\xe7\x9a\x84 CMD \xe8\xb3\x87\xe6\x96\x99\xe7\x94\xa8
++    # def cmdSave(self):
++    #     # \xe6\x8a\x93 D:/Tinghao.Chen/Desktop/Test_menu \xe7\x9a\x84  batch file
++    #     ini = self.loadini()
++    #     batchName = ini.value("General/filepath_1")
++    #     p = subprocess.run(batchName, stdout=subprocess.PIPE)   # \xe5\x9c\xa8\xe8\xb3\x87\xe6\x96\x99\xe5\xa4\xbe\xe4\xb8\x8b\xe5\x8e\xbb\xe5\x9f\xb7\xe8\xa1\x8cini\xe8\xa3\xa1\xe9\x9d\xa2\xe7\xb4\x80\xe9\x8c\x84\xe7\x9a\x84batch file name
++    #     str_List = str(p.stdout.decode(\'cp950\')).split(\'\\r\
+\\r\
+\')  # i.replace("\\r\
+", "")  #\xe6\x9b\xbf\xe6\x8f\x9b\xe7\x89\xb9\xe5\xae\x9a\xe5\xad\x97\xe4\xb8\xb2\xe7\x94\xa8
++        
++    #     # Write batch output into data.log (\xe5\xaf\xab\xe5\x85\xa5)
++    #     with open("commandData.log", "w") as dataWrite:
++    #         print("Writing str_List into data.log")
++    #         for line in str_List:
++    #             dataWrite.write(line)
++    #             dataWrite.write("\
+")
++
++
++    #     # Print SHA code of the data.log
++    #     with open("commandData.log", "r") as dataRead:
++    #         print("Reading SHA code")
++    #         dataSHA = dataRead.readlines()[19]  # Read the specific line (SHA code)
++        
++    #     # Write the SHA code into Debug_log file 
++    #     with open(real_time + "_Debug_log.log", "w") as dataWrite:
++    #         print("SHA code is written into Debug_log")
++    #         dataWrite.write(dataSHA)
++        
++        
++            
++
++    # def get_list_item(self):
++
++    #     for i in range(self.listWidget.count()):
++    #         #res = yield self.listWidget.item(i)
++        
++    #         print(self.listWidget.item(i).text())
++
++    
++        
++
++
++    def create_batch_run(self, wrapper_path):
++        file_name = \'RunOnce.bat\'
++        f = open(file_name, \'w+\')
++        script = "cd /d "+ wrapper_path + "\
+call " + wrapper_path+"\\\\test_plan_ui_"+Main.version_number+".exe"
++        f.write(script)
++        f.close()
++        return
++
++
++
++    def reboot_reg(self, wrapper_path):
++        cmd_reg = ["reg", "add", "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce", "/v", "RunScript", "/t", "REG_SZ", "/d", wrapper_path+"\\\\RunOnce.bat"]
++        r = subprocess.run(cmd_reg, stdout=subprocess.PIPE)
++        if r.returncode == 0:
++            pass
++        else:
++            print(r.returncode)
++        
++
++
++    def getfile(self):
++
++        # \xe9\x81\xb8\xe5\x8f\x96\xe8\xb3\x87\xe6\x96\x99\xe5\xa4\xbe\xe5\xb0\x8d\xe8\xa9\xb1\xe8\xa6\x96\xe7\xaa\x97
++        dig = QFileDialog.getExistingDirectory()
++        # # setting gui can open any files
++
++        config = configparser.ConfigParser()
++        config.read(Main.wrapper_path+\'/config.ini\')
++        config.set(\'Folder\',"path", str(dig))
++        newini = open("config.ini", \'w\')
++        config.write(newini)
++        newini.close
++        try:
++            config.add_section(\'%General\')
++        except:
++            pass
++
++        if dig != "":
++            filelist = os.listdir(dig)
++            print(filelist)
++
++            if len(filelist) != 0:
++                
++                filenumber = 0
++
++                for i in range(len(filelist)):
++                    
++                    if ".bat" in filelist[i]:
++                        
++                        filenumber = filenumber + 1
++
++                        self.listWidget.addItem(filelist[i])
++
++                        config.set(\'%General\',"filepath_"+str(filenumber), filelist[i])
++
++                        newini = open("config.ini", \'w\')
++                        config.write(newini)
++                        newini.close
++
++                        #ini.setValue("General/filepath_"+str(i+1), filelist[i])
++
++                    if ".exe" in filelist[i]:
++                        
++                        filenumber = filenumber + 1
++
++                        self.listWidget.addItem(filelist[i])
++
++
++                        config.set(\'%General\',"filepath_"+str(filenumber), filelist[i])
++
++                        newini = open(Main.wrapper_path+\'/config.ini\', \'w\')
++                        config.write(newini)
++                        newini.close
++            else:
++                None
++
++
++        return
++
++
++    def renew_ini(self):
++        
++        new_scriptlist = []
++        config = configparser.ConfigParser()
++        config.read(Main.wrapper_path+\'/config.ini\')
++
++        for i in range(self.listWidget.count()):
++            #res = yield self.listWidget.item(i)
++            scriptname = str(self.listWidget.item(i).text())
++            new_scriptlist.append(scriptname)
++
++        ini_file = config[\'%General\']
++
++        filelist = ini_file.parser._sections["%General"]
++        
++        istep = 0
++        restigger = False
++        for op,s in filelist.items():
++            istep = istep + 1
++
++            if restigger == True:
++                config.set("Runonce_trigger", "started", op)
++                restigger = False
++
++            config.set("%General", op, new_scriptlist[istep-1])
++            if "Restart" in new_scriptlist[istep-1]:
++                restigger = True
++                
++            with open(\'config.ini\', \'w\') as configfile:
++                config.write(configfile)
++        
++        
++
++
++
++    def run_memory(self):
++        
++        try:
++            config = configparser.ConfigParser()
++            config.read(Main.wrapper_path+\'/config.ini\')
++
++            tigger = config[\'Runonce_trigger\'][\'tigger\']
++            path = config[\'Folder\'][\'path\']
++            path = path.replace("/", "\\\\")
++            started_tigger = False
++            
++            if tigger == "1":
++                started = config[\'Runonce_trigger\'][\'started\']
++                filelist = config[\'%General\']
++                for key in filelist:
++                    
++                    if key == started:
++                        started_tigger = True
++                        # print(key)
++                        # print(config[\'%General\'][key])
++                    if started_tigger == True:
++                        
++                        next_file = config[\'%General\'][key]
++                        next_file = next_file.split(".")[0]
++                        print("Run on next file or script : " + next_file)
++                        #print(path+"\\\\"+next_file+".bat")
++                        #r = subprocess.run(["cd", "/d", path], stdout=subprocess.PIPE)
++                        r = subprocess.run([path+"/"+next_file+".bat"], stdout=subprocess.PIPE, shell=True)
++
++                        if r.returncode != 0:
++                            print("Got return code not success.")
++                            print(r.stdout)
++
++                config.set(\'Runonce_trigger\',"tigger", "0")
++
++                newini = open(Main.wrapper_path+\'/config.ini\', \'w\')
++                config.write(newini)
++                newini.close
++                
++        except Exception:
++
++            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
++            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
++            logging.basicConfig(filename = log_name,
++                                filemode = "w",
++                                format = Log_Format, 
++                                level = logging.DEBUG)
++
++            logger = logging.getLogger()
++
++            #Testing our Logger
++
++            logger.error("Error Message from run_memory", exc_info=True)
++
++        return
++    
++    # \xe9\x80\x99\xe9\x82\x8a\xe5\x81\x9a\xe8\xae\x80\xe5\xaf\xab\xe6\x96\xb0\xe8\x88\x8aSHA\xef\xbc\x8c\xe7\x84\xb6\xe5\xbe\x8c\xe5\x81\x9a\xe7\xb4\x80\xe9\x8c\x84
++    def SHAwrite(self, remoteSHA):
++        ini = self.loadini()
++        
++        currentSHA = ini.value("SHA/sha")
++        lastSHA = ini.value("Last_SHA/last_sha")
++        
++        if (currentSHA == "" and lastSHA == ""):
++            ini.setValue("SHA/sha", remoteSHA)
++            ini.setValue("Last_SHA/last_sha",remoteSHA)
++        elif(currentSHA != "" and currentSHA != remoteSHA):
++            ini.setValue("Last_SHA/last_sha", currentSHA)
++            ini.setValue("SHA/sha", remoteSHA)
++            
++            
++        
++
++
++
++    # def get_list_item(self, endTigger):
++        
++    #     try:
++    #         if endTigger == True:
++    #             self.renew_ini()
++    #             branch_input = self.lineEdit.text()
++    #             SHA_input = self.lineEdit_2.text()
++
++    #             setting = self.loadini()
++    #             setting.setValue("Branch/branch", branch_input)
++    #             setting.setValue("SHA/SHA", SHA_input)
++
++    #             folderpath = setting.value("Folder/path")
++                
++    #             for i in range(self.listWidget.count()):
++    #                 #res = yield self.listWidget.item(i)
++    #                 scriptname = str(self.listWidget.item(i).text())
++
++    #                 file_path = folderpath + "/" + scriptname
++                    
++
++    #                 if scriptname != "":
++                        
++    #                     if "0-1_NVMe_Preparation_2269" in file_path:
++
++    #                         if branch_input == "":
++
++    #                             branch_input = ""
++
++    #                         if SHA_input == "":
++
++    #                             SHA_input = ""
++
++    #                         procress = subprocess.run([file_path, branch_input, SHA_input])
++
++    #                         if self.checkBox.isChecked():
++    #                             command = use_inbox_delete_smi_driver_tp.main()
++    #                             print(123)
++
++    #                     elif "Restart" in file_path:
++
++    #                         setting.setValue("Runonce_trigger/tigger", "1")
++    #                         self.create_batch_run(Main.wrapper_path)
++    #                         self.reboot_reg(Main.wrapper_path)
++    #                         procress = subprocess.run([file_path])
++
++    #                         break
++
++    #                     else:
++
++    #                         procress = subprocess.run([file_path])
++
++    #                     if procress.returncode == 0:
++    #                         pass
++    #                     else:
++    #                         print("Got return code not success.")
++    #                         print(procress.stdout)
++    #         else:
++                
++    #             print("endTigger recived None")
++
++
++    #     except Exception:
++
++    #         Log_Format = "%(levelname)s %(asctime)s - %(message)s"
++    #         real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++    #         log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
++    #         logging.basicConfig(filename = log_name,
++    #                             filemode = "w",
++    #                             format = Log_Format, 
++    #                             level = logging.DEBUG)
++
++    #         logger = logging.getLogger()
++
++    #         #Testing our Logger
++
++    #         logger.error("Error Message from get_list_item", exc_info=True)
++         
++         
++
++class getSHA(QThread):
++    
++    finished = pyqtSignal()
++
++    endTigger = pyqtSignal(bool)
++    
++    SHAreturn = pyqtSignal(str)
++    
++    # Write SHA to main thread
++    SHAwrite = pyqtSignal(str)
++    
++    def __init__(self, parent=None):
++        QThread.__init__(self, parent=parent)
++        
++        
++
++    def checkBranch(self, real_time, branch):
++        print("\
+Checking branch...\
+")
++
++        # Get the latest SHA of github
++        remoteSHA = str(subprocess.check_output("git rev-parse " + str(branch)))
++        remoteSHA = remoteSHA.replace("b\'", "")
++        remoteSHA = remoteSHA[:8]   # Get former 8 SHA codes
++        
++        localSHA = str(subprocess.check_output("git rev-parse HEAD"))
++        localSHA = localSHA.replace("b\'", "")
++        localSHA = localSHA[:8]
++
++        print("remote SHA: ", remoteSHA)
++        print("local SHA: ", localSHA)
++        
++        if((remoteSHA) == (localSHA)):  # Check SHA of 2 side
++            print("\\\'Remote\xe3\x80\x91\\\' and \\\'Loacal\\\' are \\\'same\\\' branch.")
++            self.SHAwrite.emit(str(remoteSHA))
++            # return False    # \xe6\x9c\x83\xe5\xbe\xaa\xe7\x92\xb0\xe5\x8d\xb0\xef\xbc\x8c\xe4\xbd\x86\xe4\xb8\x8d\xe6\x9c\x83\xe5\xaf\xab\xe5\x85\xa5\xe5\x88\xb0log.txt
++            return True    # \xe4\xb8\x8d\xe6\x9c\x83\xe5\xbe\xaa\xe7\x92\xb0\xe5\x8d\xb0
++        else:
++            print("\\\'Remote\\\' and \\\'Loacal\\\' are \\\'different\\\' branch.")
++            #self.gitPull()
++
++        # return SHA
++        self.writeSHA(real_time, remoteSHA, localSHA)
++        Main.SHA = str(remoteSHA)
++        print("Main.SHA: ", Main.SHA)
++        
++        # using signal write to main thread 
++        self.SHAwrite.emit(str(remoteSHA))
++        return True
++        
++    # Write SHA info into SHA.log
++    def writeSHA(self, real_time, remoteSHA, localSHA):
++        with open(Main.wrapper_path+"/auto_log/"+ real_time +"_SHA_log.log", "w") as file:
++            file.write(real_time + ": \
+")
++            file.write("remote SHA: " + remoteSHA + "\
+")
++            file.write("local SHA:  " + localSHA + "\
+\
+")
++
++
++    def gitPull(self):
++        subprocess.call("git fetch -p")
++        subprocess.call("git pull") 
++
++
++    def gitPush(self):
++        subprocess.call("git add .")
++        subprocess.call("git commit -am \\"File modified.\\"")
++        subprocess.call("git push")
++
++
++    def gitCheck(self):
++        subprocess.call("git --version")
++        subprocess.call("git status")
++
++
++    def showFile(self):
++        subprocess.call(\'dir\', shell=True, cwd = \'D:/Tinghao.Chen/Desktop/SMIGIT\') 
++        subprocess.call(\'dir\', shell=True) 
++
++
++    def gotoPath(self, gitPath):
++        print("now in the gotoPath of getSHA")
++        os.chdir(gitPath)
++        # os.chdir(\'D:/SourceCode_SM2269\')
++        cwd = os.getcwd() 
++        print("Current working directory is:", cwd)
++        
++
++    def gitLog(self):
++        logInfo = str(subprocess.check_output("git log -p -1"))
++        logInfo = logInfo.split("\\\
+")
++        
++
++        with open(Main.wrapper_path + "\\log.txt", "w") as file:     # \xe4\xbd\xbf\xe7\x94\xa8\xe6\xad\xa4\xe8\xb7\xaf\xe5\xbe\x91\xe4\xbe\x86\xe8\xae\x80\xe5\xaf\xab
++            #file.write(logInfo)
++            for line in logInfo:
++                file.write(line)
++                file.write("\
+")
++        
++        print("Wrapper_path: ", Main.wrapper_path)
++        
++        # \xe6\x8a\x93\xe5\x87\xba\xe9\x97\x9c\xe9\x8d\xb5\xe5\xad\x97
++        with open(Main.wrapper_path + "\\log.txt", "r") as read:
++            for line in logInfo:
++                if "Author" in line:
++                    print("Author info: ", line)
++                    break
++                    
++            
++            #readfile = read.readlines()[19]
++            
++        #print("Author: " + readfile)
++        
++        return True
++        
++        
++    def main(self, gitPath, branch):
++        try:
++            print("In getSHA_main")
++            #counter for recording revursion (\xe9\x80\x99\xe9\x82\x8a\xe5\x85\x88\xe8\xa8\xbb\xe8\xa7\xa3\xe6\x8e\x89\xef\xbc\x8c\xe5\x9b\xa0\xe7\x82\xba\xe6\x9c\x83\xe5\xae\xb3\xe7\xa8\x8b\xe5\xbc\x8f\xe5\x8d\xa1\xe4\xbd\x8f)
++            if counter >= 1000:
++                #\xe9\x87\x8d\xe9\x96\x8b\xe6\xa9\x9f
++                #restart()   # \xe9\x87\x8d\xe5\x95\x9f?!?!
++                print("Restart")
++                #pass
++            else:
++                print("counter += 1")
++                #pass
++            
++            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++            # Go to directory (git repository)
++            print("calling gotoPath...")
++            print("gitPath:", gitPath)
++            self.gotoPath(gitPath)
++            print("After gotoPath calling...")
++            # showFile()
++            # gitCheck()
++
++            # Get SHA
++            compareTigger = self.checkBranch(real_time, branch) # \xe6\xb3\xa8\xe6\x84\x8f\xe7\x89\x88\xe6\x9c\xac\xe8\xa6\x81\xe6\x89\x93\xe5\xb0\x8d(\xe5\x9c\xa8ini\xe8\xa3\xa1\xe9\x9d\xa2\xe6\x94\xb9\xe5\x8d\xb3\xe5\x8f\xaf)
++            
++            if compareTigger == True:
++                tiggerList = self.gitLog()
++                
++                self.endTigger.emit(tiggerList)
++                
++                self.finished.emit()
++            else:
++                
++                for i in range(3):
++                    if Main.stopmissionFlag == True:
++                        break
++                    else:
++                        time.sleep(1)
++                        
++                if Main.stopmissionFlag == True:
++                    self.finished.emit()
++                else:   
++                    self.main(gitPath, branch)
++            
++        except Exception:
++
++            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
++            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
++            logging.basicConfig(filename = log_name,
++                                filemode = "w",
++                                format = Log_Format, 
++                                level = logging.DEBUG)
++
++            logger = logging.getLogger()
++            logger.error("Error Message from Class of getSHA", exc_info=True)
++            self.finished.emit()
++            
++        
++
++class runBatchcommand(QThread):
++    
++    finished = pyqtSignal()
++   
++    loopTigger = pyqtSignal(str)
++    
++    
++    def __init__(self, parent=None):
++        QThread.__init__(self, parent=parent)
++    
++    
++    def mainWork(self, endTigger, folderpath, listWidget_count, scriptList, branch_input, SHA_input, gitPath):
++        
++        try:
++            if endTigger == True:
++                
++
++
++                #folderpath = setting.value("Folder/path")
++                
++                for i in range(listWidget_count):
++                    #res = yield self.listWidget.item(i)
++                    stopFlag = Main.stopmissionFlag
++                    
++                    time.sleep(3)
++                    if stopFlag == False:
++                        scriptname = str(scriptList[i])
++
++                        file_path = folderpath + "/" + scriptname
++                        
++
++                        if scriptname != "":
++                            
++                            if "0-1_NVMe_Preparation" in file_path:
++
++                                if branch_input == None:
++
++                                    branch_input = ""
++
++                                if SHA_input == None:
++
++                                    SHA_input = ""
++                                    
++                                if branch_input != "" and SHA_input != "":
++                                    branch_input = ""
++
++
++                                procress = subprocess.run([file_path, branch_input, SHA_input], stderr=subprocess.STDOUT, timeout=300) # \xe5\x8d\xa1\xe4\xbd\x8f\xe4\xb8\x8d\xe5\x8b\x955\xe5\x88\x86\xe9\x90\x98\xe7\x9a\x84\xe8\xa9\xb1\xe5\xb0\xb1timeout
++                                
++                                                   
++                                
++                                
++                                str_List = str(procress.stdout.decode(\'cp950\')).split(\'\\r\
+\\r\
+\')  # i.replace("\\r\
+", "")  #\xe6\x9b\xbf\xe6\x8f\x9b\xe7\x89\xb9\xe5\xae\x9a\xe5\xad\x97\xe4\xb8\xb2\xe7\x94\xa8
++                                
++                                # Write batch output into CMD_MSG.log (\xe5\xaf\xab\xe5\x85\xa5)
++                                with open(Main.wrapper_path+"/auto_log/"+ real_time +"_CMD_MSG.log", "w") as dataWrite:
++                                    print("Writing str_List into data.log")
++                                    for line in str_List:
++                                        dataWrite.write(line)
++                                        dataWrite.write("\
+")
++                                                         
++                                
++
++                                if self.checkBox.isChecked():   #if global checkbox is true...
++                                    
++                                    command = use_inbox_delete_smi_driver_tp.main()     # delete driver
++                                    
++
++                            elif "Restart" in file_path or "restart" in file_path:
++                                
++                                procress = subprocess.run([file_path])
++
++                                break
++
++                            else:
++
++                                procress = subprocess.run([file_path])
++
++                            if procress.returncode == 0:
++                                pass
++                            else:
++                                print("Got return code not success.")
++                                print(procress.stdout)
++                    else:
++                        
++                        
++                        break
++                
++            else:
++                
++                print("endTigger recived False")
++                
++
++            
++            
++        except Exception:
++
++            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
++            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
++            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
++            logging.basicConfig(filename = log_name,
++                                filemode = "w",
++                                format = Log_Format, 
++                                level = logging.DEBUG)
++
++            logger = logging.getLogger()
++
++            #Testing our Logger
++
++            logger.error("Error Message from get_list_item", exc_info=True)
++        
++        if stopFlag == False:
++            self.loopTigger.emit(gitPath)
++        else:
++            self.finished.emit()
++ 
++
++        
++if __name__ == \'__main__\':
++    # \xe9\x98\xb2\xe6\xad\xa2\xe7\xa8\x8b\xe5\xbc\x8f\xe6\x95\xb4\xe5\x80\x8b\xe5\xb4\xa9\xe6\xbd\xb0\xe6\x8e\x89
++    sys.setrecursionlimit(100000)  
++    
++    app = QtWidgets.QApplication(sys.argv)
++    window = Main()
++    window.show()
++    sys.exit(app.exec_())
+\\ No newline at end of file
+'
