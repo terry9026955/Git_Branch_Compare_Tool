@@ -21,6 +21,9 @@ def main():
     stdout = str(p.communicate())
     #print(stdout)
     
+    # Check Chi or Eng
+
+    
     with open("temp.txt", "w") as wfile:
         stdout.split("\\n")
         wfile.write(stdout)
@@ -42,16 +45,7 @@ def main():
             
             print("Disk: ", str1[1])
             
-            
-            
-    
-        
-        
-    # 解碼:
-    s = "\xba\xcf\xba\xd0 0"
-    
-    
-    
+
 
     # with open("temp.txt", "wt") as file:
     #     file.write("command\ncommand\ncommand")
