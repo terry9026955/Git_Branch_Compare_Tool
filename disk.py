@@ -8,6 +8,8 @@ from subprocess import *
 import os
 import time
 import sys
+import re
+from turtle import st
 
 def main(): 
     # 先開diskpart (加了stdout就不會自動整個印出來在terminal上面)
@@ -24,7 +26,25 @@ def main():
         wfile.write(stdout)
         
     with open("temp.txt", "r") as rfile:
-        print(rfile)
+        for i in rfile:
+            str1 = re.findall(r"\\xba\\xcf\\xba\\xd0 (.*?) ", i)
+            
+            #str1 = i.split("\\r\\n")
+            #str1 = re.split("\\r\\n", i)
+            
+            
+            # if str1 is not None:
+            #     lines = str1.group(1).split("\n")
+            #     for l in lines:
+            #         print(l)
+            # else:
+            #     print("no output")
+            
+            print("Disk: ", str1[1])
+            
+            
+            
+    
         
         
     # 解碼:
