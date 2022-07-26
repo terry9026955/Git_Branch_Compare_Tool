@@ -1,5 +1,6 @@
 # get disk ID
 # 注意檔名不要取的跟指令名字一樣
+# VSCode要記得用管理員權限打開並在poweeshell下去執行，不然會出一堆問題!
 
 from multiprocessing.connection import Client
 import subprocess
@@ -17,14 +18,11 @@ def main():
     res1 = str(p.stdin.write(bytes("list disk\n", 'utf-8')))
     time.sleep(.5)
     
-
-
 if __name__ == "__main__":
     main()
     
     
     
-    # VSCode要記得用管理員權限打開並在poweeshell下去執行，不然會出一堆問題!
     # 測試一:
     #os.system('cmd /k "diskpart"')  
     # try:
