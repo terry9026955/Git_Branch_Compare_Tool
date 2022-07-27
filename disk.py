@@ -25,35 +25,22 @@ def main():
 
     
     with open("temp.txt", "w") as wfile:
-        stdout.split("\\n")
+        #stdout = str(stdout.split("\\n"))
         wfile.write(stdout)
         
+    # Get all disk ID     
     with open("temp.txt", "r") as rfile:
         for i in rfile:
-            str1 = re.findall(r"\\xba\\xcf\\xba\\xd0 (.*?) ", i)
+            str1 = re.findall(r"\\xba\\xcf\\xba\\xd0\s+(.*?) ", i)
+            print("Disk: ", str1[1], "\n")
             
-            #str1 = i.split("\\r\\n")
-            #str1 = re.split("\\r\\n", i)
-            
-            
-            # if str1 is not None:
-            #     lines = str1.group(1).split("\n")
-            #     for l in lines:
-            #         print(l)
-            # else:
-            #     print("no output")
-            
-            print("Disk: ", str1[1])
+    # Get all disk size
+    with open("temp.txt", "r") as rfile2:
+        for j in rfile2:
+            str2 = re.findall(r"\\xb3s\\xbdu\s+(.*?) GB", j)
+            print("Size: ", str2[0], " GB\n")
             
 
-
-    # with open("temp.txt", "wt") as file:
-    #     file.write("command\ncommand\ncommand")
-    # p = Popen(["diskpart", "/?", bytes("list disk".encode("GBK")), "temp.txt"], stdin=PIPE, )
-    #os.remove("temp.txt")
-    
-
-    
 
 if __name__ == "__main__":
     main()
