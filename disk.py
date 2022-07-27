@@ -45,18 +45,3 @@ def main():
 if __name__ == "__main__":
     main()
     
-    
-    
-    # 測試一:
-    #os.system('cmd /k "diskpart"')  
-    # try:
-    #     os.system('cmd /k "diskpart"')
-    #     os.system('cmd /k "list disk"')
-
-
-    # except:
-    #     print('could not execute command')
-    
-    # 測試二:
-    # command = "diskpart"
-    # run(command, shell=True)
