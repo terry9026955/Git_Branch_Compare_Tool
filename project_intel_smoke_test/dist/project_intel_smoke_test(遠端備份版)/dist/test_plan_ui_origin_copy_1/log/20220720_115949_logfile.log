@@ -1,0 +1,7 @@
+ERROR 2022-07-20 11:59:49,655 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 654, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 626, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] 系統找不到指定的檔案。: 'D:inghao.Chenesktopit_Command_Test'

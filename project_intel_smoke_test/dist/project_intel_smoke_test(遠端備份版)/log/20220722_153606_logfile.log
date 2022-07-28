@@ -1,0 +1,20 @@
+ERROR 2022-07-22 15:36:06,091 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\project_intel_smoke_test\test_plan_ui_origin_copy_1.py", line 668, in main
+    if counter >= 1000:
+UnboundLocalError: local variable 'counter' referenced before assignment
+ERROR 2022-07-22 15:37:23,602 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\project_intel_smoke_test\test_plan_ui_origin_copy_1.py", line 668, in main
+    if counter >= 1000:
+UnboundLocalError: local variable 'counter' referenced before assignment
+ERROR 2022-07-22 15:37:28,020 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\project_intel_smoke_test\test_plan_ui_origin_copy_1.py", line 668, in main
+    if counter >= 1000:
+UnboundLocalError: local variable 'counter' referenced before assignment
+ERROR 2022-07-22 15:37:28,546 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\project_intel_smoke_test\test_plan_ui_origin_copy_1.py", line 668, in main
+    if counter >= 1000:
+UnboundLocalError: local variable 'counter' referenced before assignment

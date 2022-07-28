@@ -1,0 +1,10 @@
+b'commit c8eaaedf370030843e174e5fe64c541d0631ee58
+Author: Nathan Lin <nathan.lin@siliconmotion.com>
+Date:   Mon Jul 25 11:54:23 2022 +0800
+
+    [Doc]/ Updating release note for EHF019K
+
+diff --git a/ReleaseNote/SM2269_EH_FW_release_note.xlsx b/ReleaseNote/SM2269_EH_FW_release_note.xlsx
+index 188c2a347..843984811 100644
+Binary files a/ReleaseNote/SM2269_EH_FW_release_note.xlsx and b/ReleaseNote/SM2269_EH_FW_release_note.xlsx differ
+'

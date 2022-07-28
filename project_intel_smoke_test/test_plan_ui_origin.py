@@ -1,4 +1,5 @@
 from ast import Str
+from re import T
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -13,15 +14,12 @@ import logging
 import time
 from functools import partial
 
-# Default branch: Echoharbor_N38A_Main
 
 
-# Counter for recursion times recording and restarting program
-counter = 0
 
 
 class Main(QMainWindow, ui.Ui_MainWindow):
-    SHA = None  # 全域
+    SHA = None
     stopmissionFlag = False
     version_number = "20220718A_BETA"
     # determine if application is a script file or frozen exe
@@ -55,15 +53,13 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         return
     
     
-    def getInfo(self):
+    def getInfo(self):  # 重新start
         #Initializaion of stopmissionFlag
         Main.stopmissionFlag = False
         
         ini = self.loadini()
         folderPath = ini.value("Folder/path")
         gitPath = ini.value("Git_path/path")
-        print("getInfo called!") # TEST
-        print("gitPath: " , gitPath)
         
         # get number of list 
         listNumber = self.listWidget.count()
@@ -72,6 +68,13 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         for i in range(listNumber):
             #res = yield self.listWidget.item(i)
             scriptname = str(self.listWidget.item(i).text())
+            if "0-1_NVMe_Preparation" in scriptname:
+                if self.checkBox.isChecked():
+                    checkedFlag = True # (golbal) 
+                else:
+                    checkedFlag = False
+                    
+                    
             scriptList.append(scriptname)
             
         ini_branch = ini.value("Branch/branch")   
@@ -79,16 +82,15 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
     
     def threadRunSHA(self, folderpath, listWidget_count, scriptList, branch, gitPath):
-        print("threadRunSHA called!")
-        print("now the branch is " + branch)
-        self.thread = QThread(parent=self)  # 開新Thread
+        
+        self.thread = QThread(parent=self)
         
         self.worker = getSHA()
         # Move worker to the thread
         self.worker.moveToThread(self.thread)
         # Connect signals and slots
         
-        self.thread.started.connect(partial(self.worker.main, gitPath, branch)) # 迴圈跳來會重新開一個新Thread做Thread2的事情
+        self.thread.started.connect(partial(self.worker.main, gitPath, branch))
 
         # 當收到finished, 線程結束
         self.worker.finished.connect(self.thread.quit)
@@ -585,7 +587,7 @@ class getSHA(QThread):
             return False
         else:
             print("【Remote】 and 【Loacal】 are \'different\' branch.")
-            #self.gitPull()
+            self.gitPull()
 
         # return SHA
         self.writeSHA(real_time, remoteSHA, localSHA)
@@ -626,7 +628,6 @@ class getSHA(QThread):
 
 
     def gotoPath(self, gitPath):
-        print("now in the gotoPath of getSHA")
         os.chdir(gitPath)
         # os.chdir('D:/SourceCode_SM2269')
         cwd = os.getcwd() 
@@ -634,7 +635,7 @@ class getSHA(QThread):
         
 
     def gitLog(self):
-        logInfo = str(subprocess.check_output("git log"))
+        logInfo = str(subprocess.check_output("git log -p -1"))
         logInfo = logInfo.split(" ")
         #print(logInfo)
         
@@ -643,46 +644,24 @@ class getSHA(QThread):
             for line in logInfo:
                 file.write(line)
                 file.write("\n")
-        
-        # 抓出關鍵字
         with open("log.txt", "r") as read:
-            for line in logInfo:
-                if "Author" in line:
-                    name = line.split(" ")  # 切成List
-                    fullname = str(name[1])
-                    if "<" not in name[2]:
-                        fullname = name[1] + name[2]
-                    print("Author: ", fullname)
-                    
+            readfile = read.readlines()[19]
             
-            #readfile = read.readlines()[19]
-            
-        #print("Author: " + readfile)
+        print("Author: " + readfile)
         
         return True
         
         
     def main(self, gitPath, branch):
         try:
-            #counter for recording revursion
-            if counter >= 1000:
-                #重開機
-                #restart()   # 重啟?!?!
-                pass
-            else:
-                counter += 1 
-            
             real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
             # Go to directory (git repository)
-            print("calling gotoPath...")
-            print("gitPath:", gitPath)
             self.gotoPath(gitPath)
-            print("After gotoPath calling...")
             # showFile()
             # gitCheck()
 
             # Get SHA
-            compareTigger = self.checkBranch(real_time, branch) # 注意版本要打對(在ini裡面改即可)
+            compareTigger = self.checkBranch(real_time, branch)
             
             if compareTigger == True:
                 tiggerList = self.gitLog()
@@ -765,10 +744,9 @@ class runBatchcommand(QThread):
                                 if branch_input != "" and SHA_input != "":
                                     branch_input = ""
 
-                                procress = subprocess.run([file_path, branch_input, SHA_input])
+                                procress = subprocess.run([file_path, branch_input, SHA_input]) # 卡住的狀況.. timeout
 
-                                if self.checkBox.isChecked():
-                                    
+                                if self.checkBox.isChecked():   #if global check is true...
                                     command = use_inbox_delete_smi_driver_tp.main()
                                     
 
@@ -823,9 +801,6 @@ class runBatchcommand(QThread):
 
         
 if __name__ == '__main__':
-    # 防止程式整個崩潰掉
-    sys.setrecursionlimit(100000)  
-    
     app = QtWidgets.QApplication(sys.argv)
     window = Main()
     window.show()

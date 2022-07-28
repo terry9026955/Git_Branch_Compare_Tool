@@ -1,4 +1,3 @@
-from ast import Str
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -19,12 +18,11 @@ from functools import partial
 # Counter for recursion times recording and restarting program
 counter = 0
 
-real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-
 cwd = os.getcwd()
 print("current path: ", cwd)
 
 class Main(QMainWindow, ui.Ui_MainWindow):
+    eventloop = False
     SHA = None  # 全域
     stopmissionFlag = False
     version_number = "20220718A_BETA"
@@ -46,7 +44,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
         # 這邊可能要改成 thread 去做
         self.list_add_text() #應該是關於拖動功能
-        self.pushButton_2.clicked.connect(self.removeSel) #按鈕功能
+        self.pushButton_2.clicked.connect(partial(self.removeSel, "select")) #按鈕功能
         self.pushButton_3.clicked.connect(self.getfile)
         self.pushButton_4.clicked.connect(self.tiggerStopcommand)
         self.pushButton.clicked.connect(self.getInfo)
@@ -57,6 +55,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
     def tiggerStopcommand(self):
         Main.stopmissionFlag = True
         return
+    
     
     
     def getInfo(self):
@@ -88,7 +87,10 @@ class Main(QMainWindow, ui.Ui_MainWindow):
             
             scriptList.append(scriptname)
             
-        ini_branch = ini.value("Branch/branch")   
+        ini_branch = ini.value("Branch/branch")
+        # Set delay before execute renewINI
+        time.sleep(2)
+        self.renewini_fromlistWidget()
         self.threadRunSHA(folderPath, listNumber, scriptList, ini_branch, gitPath)
         
     
@@ -131,6 +133,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         self.thread.started.connect(partial(self.worker.mainWork, endTigger, folderpath, listWidget_count, scriptList, branch, SHA, gitPath))
 
         self.worker.loopTigger.connect(partial(self.threadRunSHA, folderpath, listWidget_count, scriptList, branch))
+        self.worker.restartTigger.connect(self.setRestarttigger)
         
         # 當收到finished, 線程結束
         
@@ -178,40 +181,47 @@ class Main(QMainWindow, ui.Ui_MainWindow):
             ini = self.loadini()
 
             ini_selection = ini.value("test_plan/selection")    #QSettings.value(): read
-
             ini_branch = ini.value("Branch/branch")
-
             ini_SHA = ini.value("SHA/sha")
-            try:
-                
+            ini_path = ini.value("Folder/path")
+            Runonce_trigger = ini.value("Runonce_trigger/tigger")
+            self.comboBox.addItems(ini_selection)
+            
+            if os.path.isdir(ini_path.replace("/","\\")):
+                try:
 
-                ini_file = config['%General']
+                    ini_file = config['%General']
 
-                filelist = ini_file.parser._sections["%General"]
-                
-                for k,v in filelist.items():
+                    filelist = ini_file.parser._sections["%General"]
                     
-                    self.listWidget.addItem(filelist[k])
+                    for k,v in filelist.items():
+                        
+                        self.listWidget.addItem(filelist[k])
 
-                self.comboBox.addItems(ini_selection)
-            except:
-                tigger = False
-                with open(Main.wrapper_path+"/config.ini", 'r') as f:
-                    for row in f:
-                        if "[%General]" in row:
-                            tigger = True
-                            pass
-                        if tigger == True:
-                            #print(row)
-                            if "filepath_" in row:
-                                name = row.split("=")[1]
-                                #print(name)
-                                
-                                self.listWidget.addItem(name)
+                    
+                except:
+                    tigger = False
+                    with open(Main.wrapper_path+"/config.ini", 'r') as f:
+                        for row in f:
+                            if "[%General]" in row:
+                                tigger = True
+                                pass
+                            if tigger == True:
+                                #print(row)
+                                if "filepath_" in row:
+                                    name = row.split("=")[1]
+                                    #print(name)
+                                    
+                                    self.listWidget.addItem(name)
+            else:
+                self.removeSel("autodelete")
+                
 
             self.lineEdit.setText(ini_branch)
             self.lineEdit_2.setText(ini_SHA)
-            self.run_memory()
+            if Runonce_trigger == "1":
+                self.runMemorythread()
+                
         except Exception:
             Log_Format = "%(levelname)s %(asctime)s - %(message)s"
             real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
@@ -258,13 +268,24 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         return
 
 
-    def removeSel(self):
-
-        listItems = self.listWidget.selectedItems()
+    def removeSel(self, mode):
 
         config = configparser.ConfigParser()
         config.read(Main.wrapper_path+'/config.ini')
-        if not listItems: return
+        if mode == "select":
+            listItems = self.listWidget.selectedItems()
+        else:
+            for i in config.options("%General"):
+                
+                    if config.has_section("%General") == True:
+
+                        config.remove_option("%General", i)
+                        config.write(open(Main.wrapper_path+'/config.ini', 'w'))
+                        
+            return
+                        
+        if not listItems:
+            return
 
         for item in listItems:
             
@@ -283,6 +304,27 @@ class Main(QMainWindow, ui.Ui_MainWindow):
                         config.remove_option("%General", i)
                         config.write(open(Main.wrapper_path+'/config.ini', 'w'))
 
+
+
+    def setRestarttigger(self, nextScript):
+        ini = self.loadini()
+        ini.setValue("Runonce_trigger/tigger", str("1"))
+        ini.setValue("Runonce_trigger/started", nextScript)
+        
+        self.createbatchforRunOnce(Main.wrapper_path)
+        runonceFlag = self.regRunonce(Main.wrapper_path)
+        if runonceFlag == True:
+            Main.eventloop = True
+        else:
+            print("RunonceFlag False")
+            
+            
+    # set trigger to 0
+    def rebuildRunonce(self):
+        Main.loop = False
+        ini = self.loadini()
+        ini.setValue("Runonce_trigger/tigger", "0")
+        
 
     # 存取開卡時的 CMD 資料用
     # def cmdSave(self):
@@ -324,23 +366,22 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
 
 
-    def create_batch_run(self, wrapper_path):
-        file_name = 'RunOnce.bat'
-        f = open(file_name, 'w+')
+    def createbatchforRunOnce(self, wrapper_path):
+        file_name = wrapper_path + '\\RunOnce.bat'
+        f = open(file_name, 'w')
         script = "cd /d "+ wrapper_path + "\ncall " + wrapper_path+"\\test_plan_ui_"+Main.version_number+".exe"
         f.write(script)
         f.close()
-        return
+        
 
-
-
-    def reboot_reg(self, wrapper_path):
+    def regRunonce(self, wrapper_path):
         cmd_reg = ["reg", "add", "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce", "/v", "RunScript", "/t", "REG_SZ", "/d", wrapper_path+"\\RunOnce.bat"]
         r = subprocess.run(cmd_reg, stdout=subprocess.PIPE)
         if r.returncode == 0:
-            pass
+            return True
         else:
             print(r.returncode)
+            return False
         
 
 
@@ -404,7 +445,7 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         return
 
 
-    def renew_ini(self):
+    def renewini_fromlistWidget(self):
         
         new_scriptlist = []
         config = configparser.ConfigParser()
@@ -437,64 +478,28 @@ class Main(QMainWindow, ui.Ui_MainWindow):
         
         
 
-
-
-    def run_memory(self):
+    def runMemorythread(self):
+        self.thread = QThread(parent=self)  # 開新Thread
         
-        try:
-            config = configparser.ConfigParser()
-            config.read(Main.wrapper_path+'/config.ini')
+        self.worker = runMemory()
+        # Move worker to the thread
+        self.worker.moveToThread(self.thread)
+        # Connect signals and slots
+        self.thread.started.connect(self.worker.runmemoryMain)
+        self.worker.rebuildRunonce.connect(self.rebuildRunonce)
+        self.worker.getInfoTigger.connect(self.getInfo)
+        # 當收到finished, 線程結束
+        
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+        
+        # Start the thread
+        self.thread.start()
 
-            tigger = config['Runonce_trigger']['tigger']
-            path = config['Folder']['path']
-            path = path.replace("/", "\\")
-            started_tigger = False
-            
-            if tigger == "1":
-                started = config['Runonce_trigger']['started']
-                filelist = config['%General']
-                for key in filelist:
-                    
-                    if key == started:
-                        started_tigger = True
-                        # print(key)
-                        # print(config['%General'][key])
-                    if started_tigger == True:
-                        
-                        next_file = config['%General'][key]
-                        next_file = next_file.split(".")[0]
-                        print("Run on next file or script : " + next_file)
-                        #print(path+"\\"+next_file+".bat")
-                        #r = subprocess.run(["cd", "/d", path], stdout=subprocess.PIPE)
-                        r = subprocess.run([path+"/"+next_file+".bat"], stdout=subprocess.PIPE, shell=True)
 
-                        if r.returncode != 0:
-                            print("Got return code not success.")
-                            print(r.stdout)
-
-                config.set('Runonce_trigger',"tigger", "0")
-
-                newini = open(Main.wrapper_path+'/config.ini', 'w')
-                config.write(newini)
-                newini.close
-                
-        except Exception:
-
-            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
-            logging.basicConfig(filename = log_name,
-                                filemode = "w",
-                                format = Log_Format, 
-                                level = logging.DEBUG)
-
-            logger = logging.getLogger()
-
-            #Testing our Logger
-
-            logger.error("Error Message from run_memory", exc_info=True)
-
-        return
+    
+    
     
     # 這邊做讀寫新舊SHA，然後做紀錄
     def SHAwrite(self, remoteSHA):
@@ -629,7 +634,7 @@ class getSHA(QThread):
         if((remoteSHA) == (localSHA)):  # Check SHA of 2 side
             print("\'Remote】\' and \'Loacal\' are \'same\' branch.")
             self.SHAwrite.emit(str(remoteSHA))
-            # return False    # 會循環印，但不會寫入到log.txt
+            #return False    # 會循環印，但不會寫入到log.txt
             return True    # 不會循環印
         else:
             print("\'Remote\' and \'Loacal\' are \'different\' branch.")
@@ -772,8 +777,10 @@ class getSHA(QThread):
 class runBatchcommand(QThread):
     
     finished = pyqtSignal()
-   
+    
     loopTigger = pyqtSignal(str)
+    
+    restartTigger = pyqtSignal(str)
     
     
     def __init__(self, parent=None):
@@ -781,7 +788,7 @@ class runBatchcommand(QThread):
     
     
     def mainWork(self, endTigger, folderpath, listWidget_count, scriptList, branch_input, SHA_input, gitPath):
-        
+
         try:
             if endTigger == True:
                 
@@ -815,15 +822,20 @@ class runBatchcommand(QThread):
                                 if branch_input != "" and SHA_input != "":
                                     branch_input = ""
 
-
-                                procress = subprocess.run([file_path, branch_input, SHA_input], stderr=subprocess.STDOUT, timeout=300) # 卡住不動5分鐘的話就timeout
+                                print("Before run 0-1 batch file!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                                procress = subprocess.run([file_path, branch_input, SHA_input]) # 卡住不動5分鐘的話就timeout
                                 
+                                print("After run 0-1 batch file!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                                                    
-                                
-                                
-                                str_List = str(procress.stdout.decode('cp950')).split('\r\n\r\n')  # i.replace("\r\n", "")  #替換特定字串用
-                                
+                                # i.replace("\r\n", "")  #替換特定字串用
+                                # let decode useless or not
+                                str_List = str(procress.stdout).split('\r\n\r\n')   
+                                # str_List = str(procress.stdout).split('\r\n\r\n') 
+
+                                print("After The decode!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
                                 # Write batch output into CMD_MSG.log (寫入)
+                                real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
                                 with open(Main.wrapper_path+"/auto_log/"+ real_time +"_CMD_MSG.log", "w") as dataWrite:
                                     print("Writing str_List into data.log")
                                     for line in str_List:
@@ -832,20 +844,36 @@ class runBatchcommand(QThread):
                                                          
                                 
 
-                                if self.checkBox.isChecked():   #if global checkbox is true...
+                                if checkedFlag == True:   #if global checkbox is true...
                                     
                                     command = use_inbox_delete_smi_driver_tp.main()     # delete driver
+                                    
+                                    if command == True:
+                                        pass
+                                    else:
+                                        # ADD error handle
+                                        self.finished.emit()
+                                        break
                                     
 
                             elif "Restart" in file_path or "restart" in file_path:
                                 
+                                nextScript=str(scriptList[i+1])
+                                
+                                self.restartTigger.emit(nextScript)
+                                while True:
+                                    if Main.eventloop == True:
+                                        break
+                                    else:
+                                        time.sleep(1)
+                                        
                                 procress = subprocess.run([file_path])
 
                                 break
 
                             else:
 
-                                procress = subprocess.run([file_path])
+                                procress = subprocess.run([file_path], timeout=300)
 
                             if procress.returncode == 0:
                                 pass
@@ -884,8 +912,86 @@ class runBatchcommand(QThread):
             self.loopTigger.emit(gitPath)
         else:
             self.finished.emit()
- 
 
+
+
+class runMemory(QThread):
+    
+    finished = pyqtSignal()
+    
+    rebuildRunonce = pyqtSignal()
+
+    getInfoTigger = pyqtSignal()
+    
+    def __init__(self, parent=None):
+        QThread.__init__(self, parent=parent)
+    
+    
+    def runmemoryMain(self):
+        
+        try:
+            config = configparser.ConfigParser()
+            config.read(Main.wrapper_path+'/config.ini')
+
+            tigger = config['Runonce_trigger']['tigger']
+            path = config['Folder']['path']
+            path = path.replace("/", "\\")
+            started_tigger = False
+            if tigger == "1":
+                print("RunOnce Trigger == 1")
+                started = config['Runonce_trigger']['started']
+                filelist = config['%General']
+                for key in filelist:
+                    keyFile = config['%General'][key]
+                    print(keyFile)
+                    if keyFile == started:
+                        print("key == started1")
+                        started_tigger = True
+                        # print(key)
+                        # print(config['%General'][key])
+                    if started_tigger == True:
+                        print("started_tigger == True")
+                        next_file = config['%General'][key]
+                        next_file = next_file.split(".")[0]
+                        print("Run on next file or script : " + next_file)
+                        #print(path+"\\"+next_file+".bat")
+                        #r = subprocess.run(["cd", "/d", path], stdout=subprocess.PIPE)
+                        self.rebuildRunonce.emit()
+                        r = subprocess.run([path+"/"+next_file+".bat"], stdout=subprocess.PIPE, shell=True)
+
+                        if r.returncode != 0:
+                            print("Got return code not success.")
+                            print(r.stdout)
+
+
+                
+                
+                # def rebuildRunonce():
+                #     config.set('Runonce_trigger',"tigger", "0")
+
+                #     newini = open(Main.wrapper_path+'/config.ini', 'w')
+                #     config.write(newini)
+                #     newini.close
+
+        except Exception:
+
+            Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+            real_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+            log_name = Main.wrapper_path+"/log/"+real_time+"_logfile.log"
+            logging.basicConfig(filename = log_name,
+                                filemode = "w",
+                                format = Log_Format, 
+                                level = logging.DEBUG)
+
+            logger = logging.getLogger()
+
+            #Testing our Logger
+
+            logger.error("Error Message from run_memory", exc_info=True)
+
+        self.getInfoTigger.emit()
+        self.finished.emit()
+        
         
 if __name__ == '__main__':
     # 防止程式整個崩潰掉

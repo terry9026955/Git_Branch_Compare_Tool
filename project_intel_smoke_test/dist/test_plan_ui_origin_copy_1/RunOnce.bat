@@ -1,0 +1,2 @@
+cd /d C:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\dist\test_plan_ui_origin_copy_1
+call C:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\dist\test_plan_ui_origin_copy_1\test_plan_ui_20220718A_BETA.exe

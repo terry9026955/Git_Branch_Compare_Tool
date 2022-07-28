@@ -1,0 +1,33 @@
+ERROR 2022-07-20 17:37:01,639 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 661, in main
+    compareTigger = self.checkBranch(real_time, branch) # 注意版本要打對(在ini裡面改即可)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 567, in checkBranch
+    remoteSHA = str(subprocess.check_output("git rev-parse " + str(branch)))
+  File "C:\Program Files\Python37\lib\subprocess.py", line 411, in check_output
+    **kwargs).stdout
+  File "C:\Program Files\Python37\lib\subprocess.py", line 512, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command 'git rev-parse Echoharbor_N38A_Main' returned non-zero exit status 128.
+ERROR 2022-07-20 17:37:04,797 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 661, in main
+    compareTigger = self.checkBranch(real_time, branch) # 注意版本要打對(在ini裡面改即可)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 567, in checkBranch
+    remoteSHA = str(subprocess.check_output("git rev-parse " + str(branch)))
+  File "C:\Program Files\Python37\lib\subprocess.py", line 411, in check_output
+    **kwargs).stdout
+  File "C:\Program Files\Python37\lib\subprocess.py", line 512, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command 'git rev-parse Echoharbor_N38A_Main' returned non-zero exit status 128.
+ERROR 2022-07-20 17:37:05,150 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 661, in main
+    compareTigger = self.checkBranch(real_time, branch) # 注意版本要打對(在ini裡面改即可)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin_copy_1.py", line 567, in checkBranch
+    remoteSHA = str(subprocess.check_output("git rev-parse " + str(branch)))
+  File "C:\Program Files\Python37\lib\subprocess.py", line 411, in check_output
+    **kwargs).stdout
+  File "C:\Program Files\Python37\lib\subprocess.py", line 512, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command 'git rev-parse Echoharbor_N38A_Main' returned non-zero exit status 128.

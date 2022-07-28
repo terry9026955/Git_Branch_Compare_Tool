@@ -1,0 +1,35 @@
+ERROR 2022-07-20 11:30:31,303 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 651, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 623, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] ╰参тぃ﹚郎: 'D:inghao.Chenesktopit_Command_Test'
+ERROR 2022-07-20 11:31:04,178 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 651, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 623, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] ╰参тぃ﹚郎: 'D:inghao.Chenesktopit_Command_Test'
+ERROR 2022-07-20 11:31:08,354 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 651, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 623, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] ╰参тぃ﹚郎: 'D:inghao.Chenesktopit_Command_Test'
+ERROR 2022-07-20 11:31:09,068 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 651, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 623, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] ╰参тぃ﹚郎: 'D:inghao.Chenesktopit_Command_Test'
+ERROR 2022-07-20 11:31:09,577 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 651, in main
+    self.gotoPath(gitPath)
+  File "d:/Tinghao.Chen/Desktop/project_intel_smoke_test/test_plan_ui_origin.py", line 623, in gotoPath
+    os.chdir(gitPath)
+FileNotFoundError: [WinError 2] ╰参тぃ﹚郎: 'D:inghao.Chenesktopit_Command_Test'

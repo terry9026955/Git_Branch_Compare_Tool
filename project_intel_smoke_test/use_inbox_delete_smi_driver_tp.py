@@ -214,12 +214,13 @@ def main():
             print("Cannot find SiliconMotion's driver")
 
         #os.system("pause")
-        
+        return True
     except Exception:
         Filepath, FORMAT = catchTimeandError(wrapper_path)
         logging.basicConfig(level=logging.DEBUG, filename=Filepath, filemode='w', format=FORMAT)
         logging.error("Catch an exception.", exc_info=True)
 
+        return False
     
     
 

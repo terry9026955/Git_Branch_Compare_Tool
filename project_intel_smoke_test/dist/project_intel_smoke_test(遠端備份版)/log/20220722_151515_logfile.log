@@ -1,0 +1,5 @@
+ERROR 2022-07-22 15:15:15,247 - Error Message from Class of getSHA
+Traceback (most recent call last):
+  File "d:\Tinghao.Chen\Desktop\project_intel_smoke_test\test_plan_ui_origin_copy_1.py", line 668, in main
+    if counter >= 1000:
+UnboundLocalError: local variable 'counter' referenced before assignment
