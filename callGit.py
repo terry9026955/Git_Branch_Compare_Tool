@@ -14,6 +14,9 @@ def callGit():
 
 # Get remote and local SHA and then comparing 
 def checkBranch():
+    print("\ngit fetch...\n")
+    subprocess.call("git fetch -p")
+    
     print("\nChecking branch...\n")
 
     remoteSHA = str(subprocess.check_output("git rev-parse origin"))
@@ -45,7 +48,7 @@ def writeSHA(remoteSHA, localSHA):
 
 
 def gitPull():
-    subprocess.call("git fetch -p")
+    #subprocess.call("git fetch -p")
     subprocess.call("git pull") 
 
 
