@@ -1,0 +1,6 @@
+ERROR 2022-08-02 17:50:39,124 - Error Message from initiAct
+Traceback (most recent call last):
+  File "SMI_OneTouch_20220804A.py", line 274, in initiAct
+  File "SMI_OneTouch_20220804A.py", line 335, in removeSel
+  File "configparser.py", line 674, in options
+configparser.NoSectionError: No section: '%General'

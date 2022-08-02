@@ -1,0 +1,9 @@
+ERROR 2022-08-01 19:02:32,040 - Error Message from initiAct
+Traceback (most recent call last):
+  File "c:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\SMI_OneTouch_20220804A.py", line 274, in initiAct
+    self.removeSel("autodelete")
+  File "c:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\SMI_OneTouch_20220804A.py", line 335, in removeSel
+    for i in config.options("%General"):
+  File "c:\users\svd_intel_nuc\appdata\local\programs\python\python37\lib\configparser.py", line 674, in options
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: '%General'

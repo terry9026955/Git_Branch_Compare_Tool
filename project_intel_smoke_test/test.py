@@ -2,8 +2,20 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+import configparser
 
-settings = QSettings("config.ini", QSettings.IniFormat)
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-gitPath = settings.value("Git_path/path")
-print(gitPath)
+tigger = config['Runonce_trigger']['tigger']
+path = config['Folder']['path']
+path = path.replace("/", "\\")
+started_tigger = False
+fList = []
+print("RunOnce Trigger == 1")
+started = config['Runonce_trigger']['started']
+filelist = config['%General']
+for key in filelist:
+    f = config['%General'][key]
+    fList.append(f)
+print(fList)

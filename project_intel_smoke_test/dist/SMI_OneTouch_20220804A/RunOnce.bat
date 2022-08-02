@@ -1,0 +1,2 @@
+cd /d C:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\dist\SMI_OneTouch_20220804A
+call C:\Users\SVD_INTEL_NUC\Desktop\TerryFolder\project_intel_smoke_test\dist\SMI_OneTouch_20220804A\SMI_OneTouch_20220804A.exe

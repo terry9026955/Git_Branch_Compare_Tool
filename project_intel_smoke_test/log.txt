@@ -1,10 +1,7 @@
-b'commit c8eaaedf370030843e174e5fe64c541d0631ee58
-Author: Nathan Lin <nathan.lin@siliconmotion.com>
-Date:   Mon Jul 25 11:54:23 2022 +0800
+b"commit d19b91aff3e7f585393725b3e046c20f85df681b
+Merge: 7729353 816de41
+Author: kyren.shieh <kyren.shieh@siliconmotion.com>
+Date:   Mon Aug 1 16:21:02 2022 +0800
 
-    [Doc]/ Updating release note for EHF019K
-
-diff --git a/ReleaseNote/SM2269_EH_FW_release_note.xlsx b/ReleaseNote/SM2269_EH_FW_release_note.xlsx
-index 188c2a347..843984811 100644
-Binary files a/ReleaseNote/SM2269_EH_FW_release_note.xlsx and b/ReleaseNote/SM2269_EH_FW_release_note.xlsx differ
-'
+    Merge branch 'FairViewHarbor_Main' of ssh://rd2gerrit01.siliconmotion.com.tw:29418/SM2268XT_FairViewHarbor into FairViewHarbor_Main
+"
