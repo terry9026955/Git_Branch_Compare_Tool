@@ -1,0 +1,9 @@
+say > WL_FG_FwDL_Commit_ForEH.dsf Fail at Tue Jul 26 19:26:45 2022
+say > *************************************************************************
+say > Tue Jul 26 19:26:45 2022 Stop when Fail settings enabled  (Pause SL), Stop Script execu and hold.
+<font color=red size=24>@Fail@</font>
+say > WL_FG_FwDL_Commit_ForEH.dsf script end Tue Jul 26 19:26:45 2022
+say > Trigger Quit event.
+Script End : Tue Jul 26 19:26:45 2022
+Execution Time : 00:07:17.207
+
