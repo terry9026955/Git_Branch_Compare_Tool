@@ -1,50 +1,42 @@
-import win32com.client as win32
-import os
+from email.message import EmailMessage
+import smtplib
 
 
-olApp = win32.Dispatch('Outlook.Application')
-olNS = olApp.GetNameSpace('MAPI')
 
-def send_mail():
-    # construct email item object
-    mailItem = olApp.CreateItem(0)
-    mailItem.Subject = 'Hello, check check 123'
-    mailItem.BodyFormat = 1
-    mailItem.Body = 'Hello, I just want to send you an email~\nPlease read it.'
-    #mailItem.To = 'tinghao.chen@siliconmotion.com'
-    mailItem.To = 'terry9026955@gmail.com'
-    mailItem.Sensitivity  = 2
-    
-    # optional (account you want to use to send the email)
-    # mailItem._oleobj_.Invoke(*(64209, 0, 8, 0, olNS.Accounts.Item('terry9026955@gmail.com'))) 
-    
-    mailItem.Display()
-    mailItem.Save()
-    mailItem.Send()
+# 資料設定
+email_sender = "terry9026955@gmail.com"
+email_receiver = "jerry.ku@siliconmotion.com"
+email_password = "zwajgjqagiyngsep" 
 
 
-def send_attachment():
-    # construct Outlook application instance
-    olApp = win32.Dispatch('Outlook.Application')
-    olNS = olApp.GetNameSpace('MAPI')
 
-    # construct the email item object
-    mailItem = olApp.CreateItem(0)
-    mailItem.Subject = 'Error message Email'
-    mailItem.BodyFormat = 1
-    mailItem.Body = "The Script Failed"
-    # mailItem.To = 'tinghao.chen@siliconmotion.com' 
-    mailItem.To = 'terry9026955@gmail.com'
+# 下面這兩種寫法都會錯
+#email_password = "原本的google密碼"
+#email_password = os.environ.get('EMAIL_PASSWORD')
 
-    mailItem.Attachments.Add(os.path.join(os.getcwd(), 'error_code.log'))
-    #mailItem.Attachments.Add(os.path.join(os.getcwd(), 'csv file.png'))
 
-    mailItem.Display()
-    mailItem.Save()
-    mailItem.Send()
 
-if __name__ == "__main__":
-    send_mail()
-    send_attachment()
+# 標題與內文
+subject = "Hello, this is email testing"
+body = """I've just sent you an email message for testing!\n測試寄信用~~~"""
 
-    # 內網不需要拔，這個可以 outlook to outlook，也能 outlook to gmail
+
+
+# 建立訊息物件，利用物件建立基本設定
+em = EmailMessage()
+em["From"] = email_sender
+em["To"] = email_receiver
+em["Subject"] = subject
+em.set_content(body)
+
+
+
+# 寄信
+try:
+    with smtplib.SMTP('smtp.gmail.com', 587, timeout = 120) as smtp:    # 用SMTP_SSL也會出錯
+        smtp.starttls()                                                 # 連server
+        smtp.login(email_sender, email_password)                        # 登入帳密
+        smtp.sendmail(email_sender, email_receiver, em.as_string())     #寄信
+        print("Send successfully!")
+except:
+    print("Send failed......   connection error!")
