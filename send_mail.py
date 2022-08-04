@@ -4,9 +4,11 @@ import smtplib
 
 
 # 資料設定
-email_sender = "terry9026955@gmail.com"
-email_receiver = "jerry.ku@siliconmotion.com"
-email_password = "zwajgjqagiyngsep" 
+email_sender = "tinghao.chen@siliconmotion.com"
+#email_receiver = "jerry.ku@siliconmotion.com"
+email_receiver = "tinghao.chen@siliconmotion.com"
+
+#e mail_password = "zwajgjqagiyngsep" 
 
 
 
@@ -33,10 +35,10 @@ em.set_content(body)
 
 # 寄信
 try:
-    with smtplib.SMTP('smtp.gmail.com', 587, timeout = 120) as smtp:    # 用SMTP_SSL也會出錯
-        smtp.starttls()                                                 # 連server
-        smtp.login(email_sender, email_password)                        # 登入帳密
-        smtp.sendmail(email_sender, email_receiver, em.as_string())     #寄信
+    with smtplib.SMTP('email.siliconmotion.com.tw', 587, timeout = 120) as smtp:    # 用SMTP_SSL也會出錯
+        smtp.starttls()                                                             # 連server
+        #smtp.login(email_sender, email_password)                                   # 登入帳密
+        smtp.sendmail(email_sender, email_receiver, em.as_string())                 #寄信
         print("Send successfully!")
 except:
     print("Send failed......   connection error!")
