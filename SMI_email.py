@@ -70,6 +70,7 @@ def send_mail():
 def checkErr_and_sendMail():
     isErr = check_fail_log.get_fail_log()   # 接收回傳的 checkError flag
     print(isErr)
+    check_fail_log.store_error_log()
     
     
     # 出錯就寄信通知
