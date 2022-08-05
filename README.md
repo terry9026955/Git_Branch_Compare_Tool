@@ -7,6 +7,8 @@
 * If different:
     * git pull (get new branch to sync)
 * Record SHA detail and time
+* Parse specific fail log contents and record into 'error_code.log'
+* Send script error message email to RD
 
  <br/>
 
@@ -16,4 +18,7 @@
 * 透過subprocess呼叫command line指令
 * 執行自動開卡程序
 * 檢查與比對本地與遠端之Git Server版本，並對不同條件依序執行不同操作
-
+    * 抓server的code下來進行同步
+    * 固定時間循環做檢查    
+* Fail log keyword parsing 
+* 自動化寄信通知
