@@ -2,11 +2,14 @@
 
 import os
 from re import T
+import configparser
 
 
 def get_fail_log():
     # 檔案路徑
-    path = 'D:\Tinghao.Chen\Desktop\WeeklyScriptList_Intel_EH_3.sl_0001'
+    config = configparser.ConfigParser()
+    config.read('email.ini')
+    path = config['SCRIPT_PATH']['script_path']
 
     checkError = False                                              # 檢查有無 scan 到 fail log 訊息
     
@@ -33,10 +36,7 @@ def get_fail_log():
                         readFlag = True
                         errorMsg.append(line)
                     elif '                  ' in line:
-                        readFlag == False
-                        
-    return checkError
-                        
+                        readFlag == False                    
                         
      
     # check passed or not           
@@ -45,7 +45,7 @@ def get_fail_log():
     else:
         print("Script Passed!")
                 
-    #print(errorMsg)
+    return checkError
 
 
 def store_error_log():
