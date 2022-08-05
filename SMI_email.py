@@ -45,6 +45,8 @@ def send_mail():
         with open(file, 'rb') as fp:
             add_file = MIMEBase('application', "octet-stream")
             add_file.set_payload(fp.read())
+            
+            
         encoders.encode_base64(add_file)
         add_file.add_header('Content-Disposition', 'attachment', filename=file)
         em.attach(add_file)
