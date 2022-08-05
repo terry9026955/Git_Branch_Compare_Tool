@@ -35,6 +35,8 @@ def get_fail_log():
                     elif '                  ' in line:
                         readFlag == False
                         
+    return checkError
+                        
                         
      
     # check passed or not           
