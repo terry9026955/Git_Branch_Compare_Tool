@@ -18,52 +18,57 @@ def send_mail():
 
     from_who = config['EMAIL_SENDER']['email_sender']
     to_who = config['EMAIL_RECEIVER']['email_receiver']
+    to_who = to_who.split(',')
     
     
-    # 資料設定
-    email_sender = from_who
-    email_receiver = to_who
-    #email_receiver = "jerry.ku@siliconmotion.com"
+    for i in to_who:
+        # 資料設定
+        email_sender = from_who
+        email_receiver = i + "@siliconmotion.com"
+        
+        #email_receiver = "jerry.ku@siliconmotion.com"
 
 
-    # 標題與內文與附件檔名
-    subject = "(Testing) Script Failed Notice Message"
-    body = """There are some failures happening...\nPlease check soon\nDo not reply this letter\nThank you\n\n(Send from python code)"""
-    attachments = ['error_code.log']
+        # 標題與內文與附件檔名
+        subject = "(Testing) Script Failed Notice Message"
+        body = """There are some failures happening...\nPlease check soon\nDo not reply this letter\nThank you\n\n(Send from python code)"""
+        attachments = ['error_code.log']
+        
+
+        # 建立訊息物件，利用物件建立基本設定
+        em = MIMEMultipart()
+        em["From"] = email_sender
+        em["To"] = email_receiver
+        em["Subject"] = subject
+        em.attach(MIMEText(body))    
+        
+        
+        # 加入附件檔內容至信件內容
+        for file in attachments:
+            with open(file, 'rb') as fp:
+                add_file = MIMEBase('application', "octet-stream")
+                add_file.set_payload(fp.read())
+                
+                
+            encoders.encode_base64(add_file)
+            add_file.add_header('Content-Disposition', 'attachment', filename=file)
+            em.attach(add_file)
+
+
+        # 寄信
+        try:
+            with smtplib.SMTP('email.siliconmotion.com.tw', timeout = 120) as smtp:     # 設定要連線的Server (公司內網，沒port)
+                smtp.starttls()                                                         # 連server
+                #smtp.login(email_sender, email_password)                               # 登入帳密 (不需要登入帳密)
+                smtp.sendmail(email_sender, email_receiver, em.as_string())             # 寄信
+                print("Send successfully!")
+                
+                
+        except Exception as ex:
+            print("Send failed......")
+            print(ex)
+        
     
-
-    # 建立訊息物件，利用物件建立基本設定
-    em = MIMEMultipart()
-    em["From"] = email_sender
-    em["To"] = email_receiver
-    em["Subject"] = subject
-    em.attach(MIMEText(body))    
-     
-     
-    # 加入附件檔內容至信件內容
-    for file in attachments:
-        with open(file, 'rb') as fp:
-            add_file = MIMEBase('application', "octet-stream")
-            add_file.set_payload(fp.read())
-            
-            
-        encoders.encode_base64(add_file)
-        add_file.add_header('Content-Disposition', 'attachment', filename=file)
-        em.attach(add_file)
-
-
-    # 寄信
-    try:
-        with smtplib.SMTP('email.siliconmotion.com.tw', timeout = 120) as smtp:     # 設定要連線的Server (公司內網，沒port)
-            smtp.starttls()                                                         # 連server
-            #smtp.login(email_sender, email_password)                               # 登入帳密 (不需要登入帳密)
-            smtp.sendmail(email_sender, email_receiver, em.as_string())             # 寄信
-            print("Send successfully!")
-            
-            
-    except Exception as ex:
-        print("Send failed......")
-        print(ex)
     
     
     
@@ -78,6 +83,97 @@ def checkErr_and_sendMail():
         send_mail()
     else:
         print("No error")
+
+
+
+# 跑完就寄信通知
+def runover(result, scriptName):
+    # 判斷 batch file 執行結果
+    if result == "PASS":
+        # 讀 email.ini 的內容
+        config = configparser.ConfigParser()
+        config.read('email.ini')
+
+
+        from_who = config['EMAIL_SENDER']['email_sender']
+        to_who = config['EMAIL_RECEIVER']['email_receiver']
+        to_who = to_who.split(',')
+        
+        for i in to_who:
+            # 資料設定
+            email_sender = from_who
+            email_receiver = i + "@siliconmotion.com"
+            #email_receiver = "jerry.ku@siliconmotion.com"
+
+
+            # 標題與內文與附件檔名
+            subject = "(Testing) Run Completed"
+            body = """Batch file run completed\ngood! good! good!\n(Send from python code)"""
+            
+            
+
+            # 建立訊息物件，利用物件建立基本設定
+            em = MIMEMultipart()
+            em["From"] = email_sender
+            em["To"] = email_receiver
+            em["Subject"] = subject
+            em.attach(MIMEText(body))    
+            
+        
+
+            # 寄信
+            try:
+                with smtplib.SMTP('email.siliconmotion.com.tw', timeout = 120) as smtp:     # 設定要連線的Server (公司內網，沒port)
+                    smtp.starttls()                                                         # 連server
+                    #smtp.login(email_sender, email_password)                               # 登入帳密 (不需要登入帳密)
+                    smtp.sendmail(email_sender, email_receiver, em.as_string())             # 寄信
+                    print("Send pass msg successfully!")
+                    
+                    
+            except Exception as ex:
+                print("Send pass msg failed......")
+                print(ex)
+            
+            
+            
+            
+            
+    elif result == "Fail":
+        config = configparser.ConfigParser()
+        config.read('email.ini')
+        
+        from_who = config['EMAIL_SENDER']['email_sender']
+        to_who = config['EMAIL_RECEIVER']['email_receiver']
+        to_who = to_who.split(',')
+        
+        for i in to_who:
+            email_sender = from_who
+            email_receiver = i + "@siliconmotion.com"
+            
+            subject = "(Testing) Run Failed"
+            body = ("""{} -------> run failed!\nThe last failed occured in -------> {} \n(Send from python code)""".format(scriptName, scriptName))
+
+            # 建立訊息物件，利用物件建立基本設定
+            em = MIMEMultipart()
+            em["From"] = email_sender
+            em["To"] = email_receiver
+            em["Subject"] = subject
+            em.attach(MIMEText(body)) 
+            
+            
+            # 寄信
+            try:
+                with smtplib.SMTP('email.siliconmotion.com.tw', timeout = 120) as smtp:     # 設定要連線的Server (公司內網，沒port)
+                    smtp.starttls()                                                         # 連server
+                    smtp.sendmail(email_sender, email_receiver, em.as_string())             # 寄信
+                    print("Send error msg successfully!")
+                    
+                    
+            except Exception as ex:
+                print("Send error msg failed......")
+                print(ex)
+                
+            
 
 
 
