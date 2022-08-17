@@ -1,7 +1,33 @@
-b"commit d19b91aff3e7f585393725b3e046c20f85df681b
-Merge: 7729353 816de41
-Author: kyren.shieh <kyren.shieh@siliconmotion.com>
-Date:   Mon Aug 1 16:21:02 2022 +0800
+b'commit e24abc26a10ab4694003ccb7c53ee2670ca6ec53
+Author: Andy.Chuang <andy.chuang@siliconmotion.com>
+Date:   Fri Aug 5 16:12:23 2022 +0800
 
-    Merge branch 'FairViewHarbor_Main' of ssh://rd2gerrit01.siliconmotion.com.tw:29418/SM2268XT_FairViewHarbor into FairViewHarbor_Main
-"
+    [Fix]/[NAND]/[RD2FW5-1418] Remove initFlashPllPhy in PD1_Flash_Init(), it will set enable bypass mode and nand clock would be low speed.
+
+diff --git a/system.c b/system.c
+index 467135f..f61e14a 100644
+--- a/system.c
++++ b/system.c
+@@ -1882,7 +1882,7 @@ void SpecialSeq2TLC(BYTE u8Locate)
+     usWrtOp.Wrt.uBlockType = C_SLCBlock;
+ 
+ #if defined(__ISP__) || defined(__RDT__)
+-    SetAllClock(gpstLS->GEN.PS0.SysClock, C_100Mhz, gpstLS->GEN.PS0.LDPCClock, 1);
++    SetAllClock(gpstLS->GEN.PS0.SysClock, C_100Mhz, gpstLS->GEN.PS0.LDPCClock, 0);
+ #endif
+ 
+     for(uLoop = 0; uLoop < 4; uLoop++)
+diff --git a/system_hw_boot.c b/system_hw_boot.c
+index 3ad5f5a..a86f335 100644
+--- a/system_hw_boot.c
++++ b/system_hw_boot.c
+@@ -421,8 +421,6 @@ void PD1_Flash_Init(InitType u32InitType)
+ {
+     if (u32InitType & C_Init_PreInit)
+     {
+-        initFlashPllPhy(C_ToggleMode);
+-
+         //Before loading paramter page or lightswitch.
+         for (BYTE u8Ch = 0; u8Ch < C_MaxChNum; u8Ch++)
+         {
+'

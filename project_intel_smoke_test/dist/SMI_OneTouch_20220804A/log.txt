@@ -1,10 +1,7 @@
-b'commit 7071f62f58aca98d2b7bc6d7e25f4a7f4f65e18a
-Author: kyren.shieh <kyren.shieh@siliconmotion.com>
-Date:   Tue Aug 2 15:50:42 2022 +0800
+b"commit e55049c8ad04a6bf3fd2344e10b58df8802c477a
+Merge: cba93a4 214b735
+Author: stefan.huang <stefan.huang@siliconmotion.com>
+Date:   Tue Aug 2 22:30:14 2022 +0800
 
-    [Tool]/[SourceCodeParser]/Update SourceCodeParser to V0627A
-
-diff --git a/SourceCodeParser.exe b/SourceCodeParser.exe
-index 3b606c7..b4e1032 100644
-Binary files a/SourceCodeParser.exe and b/SourceCodeParser.exe differ
-'
+    Merge branch 'FairViewHarbor_Main' of ssh://rd2gerrit01.siliconmotion.com.tw:29418/SM2268XT_FairViewHarbor into FairViewHarbor_Main
+"
